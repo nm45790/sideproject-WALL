@@ -2,10 +2,10 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import MainContainer from "../../components/MainContainer";
-import Icons from "../../components/Icons";
-import { useAuth } from "../../components/CombinedProvider";
-import { cookies } from "../../utils/cookies";
+import { useAuth } from "../components/CombinedProvider";
+import { cookies } from "../utils/cookies";
+import MainContainer from "../components/MainContainer";
+import Icons from "../components/Icons";
 
 export default function LeavePage() {
   const router = useRouter();
