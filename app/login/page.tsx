@@ -241,6 +241,32 @@ export default function LoginPage() {
             <span className="font-semibold text-white text-[16px]">로그인</span>
           )}
         </button>
+
+        {/* 아이디, 비밀번호 찾기 영역 */}
+        <div className="flex justify-center items-center gap-[6px] w-full">
+          <button
+            className="text-[#B4B4B4] text-[13px]"
+            onClick={() => router.push("/find/id")}
+          >
+            아이디 찾기
+          </button>
+          <svg
+            width="2"
+            height="2"
+            viewBox="0 0 2 2"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle cx="1" cy="1" r="1" fill="#D9D9D9" />
+          </svg>
+
+          <button
+            className="text-[#B4B4B4] text-[13px]"
+            onClick={() => router.push("/find/password")}
+          >
+            비밀번호 찾기
+          </button>
+        </div>
       </div>
     </MainContainer>
   );

@@ -120,12 +120,93 @@ export const PrevIcon = ({ className }: IconProps) => {
   );
 };
 
+export const EyeOpenIcon = ({ className }: IconProps) => {
+  return (
+    <svg
+      width="20"
+      height="20"
+      viewBox="0 0 20 20"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+    >
+      <path
+        d="M10 4C4.5 4 1.5 10 1.5 10C1.5 10 4.5 16 10 16C15.5 16 18.5 10 18.5 10C18.5 10 15.5 4 10 4Z"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <circle
+        cx="10"
+        cy="10"
+        r="3"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+};
+
+export const EyeCloseIcon = ({ className }: IconProps) => {
+  return (
+    <svg
+      width="20"
+      height="20"
+      viewBox="0 0 20 20"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+    >
+      <path
+        d="M3 3L17 17"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M10 7C11.66 7 13 8.34 13 10C13 10.35 12.94 10.69 12.83 11"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M7.53 8.5C7.2 8.97 7 9.46 7 10C7 11.66 8.34 13 10 13C10.54 13 11.03 12.8 11.5 12.47"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M4 5.5C2.6 6.8 1.5 8.8 1.5 10C1.5 10 4.5 16 10 16C11.5 16 12.8 15.5 13.9 14.7"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M16 13.5C17.4 12.2 18.5 10.2 18.5 10C18.5 10 15.5 4 10 4C8.5 4 7.2 4.5 6.1 5.3"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+};
+
 const Icons = {
   Close: CloseIcon,
   Checkbox: CheckboxIcon,
   ArrowLeft: ArrowLeftIcon,
   ArrowDown: ArrowDownIcon,
   Prev: PrevIcon,
+  EyeOpen: EyeOpenIcon,
+  EyeClose: EyeCloseIcon,
 };
 
 export default Icons;

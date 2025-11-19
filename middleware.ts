@@ -7,7 +7,9 @@ export function middleware(request: NextRequest) {
   // 인증이 필요없는 경로들
   const publicPaths = ["/", "/login"];
   const isPublicPath =
-    publicPaths.includes(pathname) || pathname.startsWith("/signup");
+    publicPaths.includes(pathname) ||
+    pathname.startsWith("/signup") ||
+    pathname.startsWith("/find");
 
   // 공개 경로면 그대로 진행
   if (isPublicPath) {

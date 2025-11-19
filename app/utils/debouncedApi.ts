@@ -57,8 +57,12 @@ export const useDebouncedApi = (options: DebouncedApiOptions = {}) => {
             // JSON 파싱 실패 시 기본 에러 메시지 사용
           }
 
-          // alert 표시 (브라우저 환경에서만)
-          if (typeof window !== "undefined") {
+          // 401(인증 오류)과 403(권한 오류)은 alert을 띄우지 않음 (자동 로그인 처리됨)
+          if (
+            response.status !== 401 &&
+            response.status !== 403 &&
+            typeof window !== "undefined"
+          ) {
             alert(errorMessage);
           }
 
