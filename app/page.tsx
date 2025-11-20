@@ -133,12 +133,12 @@ export default function Home() {
   }, [router]);
 
   return (
-    <>
+    <div className="w-full h-dvh overflow-hidden">
       {/* 메인 콘텐츠 */}
       <div
         className={`transition-all duration-700 ease-out ${
           mainVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
-        } w-full flex justify-center`}
+        } w-full flex justify-center h-full`}
       >
         <MainContainer>
           <div className="bg-white relative w-full min-h-dvh px-5 flex flex-col">
@@ -203,6 +203,6 @@ export default function Home() {
           <Splash />
         </div>
       )}
-    </>
+    </div>
   );
 }
