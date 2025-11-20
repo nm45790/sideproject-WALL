@@ -310,16 +310,6 @@ export default function Academy() {
         </MainContainer>
       </div>
 
-      {/* 스플래시 오버레이 */}
-      <div
-        className={`fixed inset-0 z-50 transition-opacity duration-500 ease-out ${
-          splashFading ? "opacity-0" : "opacity-100"
-        }`}
-        style={{ pointerEvents: splashFading ? "none" : "auto" }}
-      >
-        <Splash />
-      </div>
-
       {/* 날짜 선택 모달 */}
       <DatePickerModal
         isOpen={isDatePickerOpen}
