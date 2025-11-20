@@ -8,27 +8,47 @@ import { authService } from "./utils/auth";
 
 export default function Home() {
   const router = useRouter();
-  const isProduction = process.env.NODE_ENV === "production";
 
-  const [splashFading, setSplashFading] = useState(isProduction ? false : true);
-  const [mainVisible, setMainVisible] = useState(isProduction ? false : true);
+  // 하이드레이션 에러 방지를 위해 초기값은 false
+  const [showSplash, setShowSplash] = useState(false);
+  const [splashFading, setSplashFading] = useState(false);
+  const [mainVisible, setMainVisible] = useState(false);
+
+  // 클라이언트 사이드에서 세션 스토리지 체크
+  useEffect(() => {
+    const hasShownSplash = sessionStorage.getItem("hasShownSplash");
+    if (!hasShownSplash) {
+      setShowSplash(true);
+    } else {
+      setMainVisible(true);
+    }
+  }, []);
 
   useEffect(() => {
-    if (isProduction) {
+    if (showSplash) {
+      // 스플래시 표시 중 스크롤 방지
+      document.body.style.overflow = "hidden";
+
+      // 스플래시 fade out 타이머
       const fadeOutTimer = setTimeout(() => {
         setSplashFading(true);
       }, 900);
 
+      // 메인 콘텐츠 표시 타이머
       const mainTimer = setTimeout(() => {
         setMainVisible(true);
-      }, 1000);
+        setShowSplash(false);
+        document.body.style.overflow = ""; // 스크롤 복원
+        sessionStorage.setItem("hasShownSplash", "true"); // 세션에 저장
+      }, 1400); // fade out 완료 후
 
       return () => {
         clearTimeout(fadeOutTimer);
         clearTimeout(mainTimer);
+        document.body.style.overflow = ""; // cleanup
       };
     }
-  }, [isProduction]);
+  }, [showSplash]);
 
   // 로그인 상태 체크
   useEffect(() => {
@@ -173,14 +193,16 @@ export default function Home() {
       </div>
 
       {/* 스플래시 오버레이 */}
-      <div
-        className={`fixed inset-0 z-50 transition-opacity duration-500 ease-out ${
-          splashFading ? "opacity-0" : "opacity-100"
-        }`}
-        style={{ pointerEvents: splashFading ? "none" : "auto" }}
-      >
-        <Splash />
-      </div>
+      {showSplash && (
+        <div
+          className={`fixed inset-0 z-50 transition-opacity duration-500 ease-out ${
+            splashFading ? "opacity-0" : "opacity-100"
+          }`}
+          style={{ pointerEvents: splashFading ? "none" : "auto" }}
+        >
+          <Splash />
+        </div>
+      )}
     </>
   );
 }

@@ -15,7 +15,7 @@ const Splash = () => {
   }, []);
 
   return (
-    <div className="bg-[#3f55ff] h-dvh w-full flex items-center justify-center">
+    <div className="bg-[#3f55ff] h-dvh w-full flex items-center justify-center overflow-hidden">
       <div
         className={`transition-all duration-1000 ease-out transform ${
           isVisible
