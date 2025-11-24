@@ -1,12 +1,12 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { PetDetail } from "../types/pet";
+import { Pet } from "../types/pet";
 import Icons from "./Icons";
 import { getImageUrl } from "../utils/image";
 
 interface PetCardProps {
-  petDetail: PetDetail;
+  pet: Pet;
 }
 
 // 생일로부터 함께한 기간 계산
@@ -38,21 +38,19 @@ function calculateTimeWithPet(birthday: string): string {
   return `${years}년 ${months}개월`;
 }
 
-export default function PetCard({ petDetail }: PetCardProps) {
+export default function PetCard({ pet }: PetCardProps) {
   const router = useRouter();
-  const timeWithPet = calculateTimeWithPet(petDetail.petBirthday);
-  const imageUrl = getImageUrl(petDetail.petImage);
+  const timeWithPet = calculateTimeWithPet(pet.petBirthday);
+  const imageUrl = getImageUrl(pet.petImage);
 
   const handleCardClick = () => {
     // 상태 페이지로 이동 (petId와 academyId 전달)
-    router.push(
-      `/parent/status?petId=${petDetail.id}&academyId=${petDetail.academyId}`,
-    );
+    router.push(`/parent/status?petId=${pet.id}&academyId=${pet.academyId}`);
   };
 
   const handleEdit = (e: React.MouseEvent) => {
     e.stopPropagation(); // 카드 클릭 이벤트 전파 방지
-    router.push(`/parent/update?petId=${petDetail.id}`);
+    router.push(`/parent/update?petId=${pet.id}`);
   };
 
   return (
@@ -115,23 +113,19 @@ export default function PetCard({ petDetail }: PetCardProps) {
           <circle cx="8" cy="5.5" r="0.5" fill="#3f59ff" />
         </svg>
         <p className="text-[16px] font-bold text-[#3f59ff]">
-          {petDetail.academyName}
+          {pet.academyName}
         </p>
       </div>
 
       {/* 반려동물 이름과 견종 */}
       <div className="px-[20px] mt-[19px] mb-[11px]">
         <div className="flex items-center gap-[6px] mb-[6px]">
-          <p className="text-[18px] font-bold text-[#363e4a]">
-            {petDetail.petName}
-          </p>
+          <p className="text-[18px] font-bold text-[#363e4a]">{pet.petName}</p>
           <span className="text-[18px]">
-            {petDetail.petGender === "MALE" ? "♂" : "♀"}
+            {pet.petGender === "MALE" ? "♂" : "♀"}
           </span>
         </div>
-        <p className="text-[12px] font-medium text-[#858585]">
-          {petDetail.petBreed}
-        </p>
+        <p className="text-[12px] font-medium text-[#858585]">{pet.petBreed}</p>
       </div>
 
       {/* 반려동물 사진 */}
@@ -140,7 +134,7 @@ export default function PetCard({ petDetail }: PetCardProps) {
           {imageUrl ? (
             <img
               src={imageUrl}
-              alt={petDetail.petName}
+              alt={pet.petName}
               className="w-full h-full object-cover"
             />
           ) : (

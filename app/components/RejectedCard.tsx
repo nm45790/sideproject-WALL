@@ -1,14 +1,9 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { PetDetail } from "../types/pet";
 import { useSignupStore } from "../store/signupStore";
 
-interface RejectedCardProps {
-  petDetail: PetDetail;
-}
-
-export default function RejectedCard({ petDetail }: RejectedCardProps) {
+export default function RejectedCard() {
   const router = useRouter();
   const { setIsAddingPet } = useSignupStore();
 

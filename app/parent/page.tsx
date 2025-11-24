@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { authService } from "../utils/auth";
 import { api } from "../utils/api";
-import { Pet, PetDetail, PetsResponse, PetDetailResponse } from "../types/pet";
+import { Pet, PetsResponse } from "../types/pet";
 import PetCard from "../components/PetCard";
 import WaitingCard from "../components/WaitingCard";
 import RejectedCard from "../components/RejectedCard";
@@ -15,9 +15,6 @@ export default function ParentPage() {
   const router = useRouter();
   const scrollRef = useRef<HTMLDivElement>(null);
   const [pets, setPets] = useState<Pet[]>([]);
-  const [petDetails, setPetDetails] = useState<Map<number, PetDetail>>(
-    new Map(),
-  );
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [userName, setUserName] = useState("");
@@ -52,38 +49,6 @@ export default function ParentPage() {
 
     fetchPets();
   }, [router]);
-
-  // 각 반려동물의 상세 정보 조회
-  useEffect(() => {
-    const fetchPetDetails = async () => {
-      const userInfo = authService.getCurrentUserInfo();
-      if (!userInfo) return;
-
-      for (const pet of pets) {
-        // 모든 상태의 반려동물에 대해 상세 정보 조회
-        if (!petDetails.has(pet.id)) {
-          try {
-            const response = await api.get<PetDetailResponse>(
-              `/api/v1/pets/${pet.id}/members/${userInfo.id}`,
-            );
-            if (response.success && response.data && response.data.data) {
-              setPetDetails((prev) => {
-                const newMap = new Map(prev);
-                newMap.set(pet.id, response.data!.data);
-                return newMap;
-              });
-            }
-          } catch (error) {
-            console.error(`반려동물 ${pet.id} 상세 정보 조회 실패:`, error);
-          }
-        }
-      }
-    };
-
-    if (pets.length > 0) {
-      fetchPetDetails();
-    }
-  }, [pets]);
 
   // 스크롤 이벤트 처리
   const handleScroll = () => {
@@ -150,15 +115,17 @@ export default function ParentPage() {
   return (
     <MainContainer bg="#f3f4f9" noPadding>
       {/* 상단 헤더 */}
-      <div className="bg-[#f3f4f9] h-[144px] relative px-[20px] mb-[20px]">
+      <div className="bg-[#f3f4f9] min-h-[144px] relative px-[20px] mb-[20px] pb-[20px]">
         <div className="pt-[73px]">
           <p className="text-[20px] font-bold text-[#363e4a] leading-[24px]">
             안녕하세요!
           </p>
-          <div className="flex items-center gap-[4px] mt-[5px]">
+          <div className="flex items-start gap-[4px] mt-[5px] flex-wrap">
             <div className="bg-[#3f59ff] rounded-[7px] px-[8px] py-[5px]">
               <p className="text-[20px] font-bold text-white leading-[24px]">
-                {userName}
+                {pets.length > 0
+                  ? pets.map((pet) => pet.petName).join(", ")
+                  : userName}
               </p>
             </div>
             <p className="text-[20px] font-bold text-[#363e4a] leading-[24px]">
@@ -212,27 +179,13 @@ export default function ParentPage() {
         }}
       >
         {pets.map((pet) => {
-          const petDetail = petDetails.get(pet.id);
-
-          // 상세 정보가 로딩될 때까지 로딩 표시
-          if (!petDetail) {
-            return (
-              <div
-                key={pet.id}
-                className="bg-white rounded-[7px] shadow-[0px_1px_3px_0px_rgba(0,0,0,0.1)] w-[315px] min-h-[458px] flex-shrink-0 flex items-center justify-center snap-center"
-              >
-                <p className="text-[16px] text-[#858585]">로딩 중...</p>
-              </div>
-            );
-          }
-
           // enrollmentStatus에 따라 다른 카드 렌더링
           if (pet.enrollmentStatus === "WAITING") {
-            return <WaitingCard key={pet.id} petDetail={petDetail} />;
+            return <WaitingCard key={pet.id} />;
           } else if (pet.enrollmentStatus === "CANCELLED") {
-            return <RejectedCard key={pet.id} petDetail={petDetail} />;
+            return <RejectedCard key={pet.id} />;
           } else if (pet.enrollmentStatus === "APPROVED") {
-            return <PetCard key={pet.id} petDetail={petDetail} />;
+            return <PetCard key={pet.id} pet={pet} />;
           }
           return null;
         })}

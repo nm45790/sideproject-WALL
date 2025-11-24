@@ -71,7 +71,7 @@ export default function ParentUpdatePage() {
     };
 
     fetchPetDetail();
-  }, [petId, router, userInfo?.memberId]);
+  }, [petId, router, userInfo?.id]);
 
   const handleGoBack = () => {
     router.back();

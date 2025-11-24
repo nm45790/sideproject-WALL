@@ -1,12 +1,6 @@
 "use client";
 
-import { PetDetail } from "../types/pet";
-
-interface WaitingCardProps {
-  petDetail: PetDetail;
-}
-
-export default function WaitingCard({ petDetail }: WaitingCardProps) {
+export default function WaitingCard() {
   return (
     <div className="bg-white rounded-[7px] shadow-[0px_1px_3px_0px_rgba(0,0,0,0.1)] w-[315px] min-h-[458px] flex-shrink-0 snap-center flex flex-col items-center justify-center px-[20px]">
       {/* 메인 메시지 */}
@@ -26,4 +20,3 @@ export default function WaitingCard({ petDetail }: WaitingCardProps) {
     </div>
   );
 }
-
