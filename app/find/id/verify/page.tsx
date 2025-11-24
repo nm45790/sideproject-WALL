@@ -22,7 +22,7 @@ export default function FindIdVerifyPage() {
   const [verificationCode, setVerificationCode] = useState("");
   const [isCodeFocused, setIsCodeFocused] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(300); // 5분
+  const [timeLeft, setTimeLeft] = useState(180); // 180초(3분)
 
   // 이름과 전화번호가 없으면 첫 페이지로 리다이렉트
   useEffect(() => {
@@ -31,6 +31,13 @@ export default function FindIdVerifyPage() {
       router.push("/find/id");
     }
   }, [name, phone, router]);
+
+  // 페이지 로드 시 자동으로 인증번호 발송
+  useEffect(() => {
+    if (name && phone) {
+      handleResendCode();
+    }
+  }, []);
 
   // 타이머 효과
   useEffect(() => {
@@ -73,7 +80,7 @@ export default function FindIdVerifyPage() {
 
       if (response) {
         alert("인증번호가 재발송되었습니다.");
-        setTimeLeft(300); // 타이머 재시작
+        setTimeLeft(180); // 타이머 재시작 (180초)
         setVerificationCode("");
       }
     } catch (err) {
@@ -154,38 +161,44 @@ export default function FindIdVerifyPage() {
               *
             </span>
           </div>
-          <input
-            type="text"
-            value={verificationCode}
-            onChange={(e) => handleCodeChange(e.target.value)}
-            onFocus={() => setIsCodeFocused(true)}
-            onBlur={() => setIsCodeFocused(false)}
-            placeholder="인증번호 6자리를 입력해주세요"
-            maxLength={6}
-            disabled={isLoading}
-            className={`w-full h-[59px] border-[1.5px] rounded-[7px] px-5 text-[16px] font-medium outline-none transition-colors ${
-              isCodeFocused || verificationCode
-                ? "border-[#3f55ff]"
-                : "border-[#d2d2d2]"
-            } placeholder:text-[#d2d2d2] placeholder:font-medium`}
-          />
+          <div className="relative">
+            <input
+              type="text"
+              value={verificationCode}
+              onChange={(e) => handleCodeChange(e.target.value)}
+              onFocus={() => setIsCodeFocused(true)}
+              onBlur={() => setIsCodeFocused(false)}
+              placeholder="인증번호를 입력해 주세요"
+              maxLength={6}
+              disabled={isLoading}
+              className={`w-full h-[59px] border-[1.5px] rounded-[7px] px-5 pr-[80px] text-[16px] font-medium outline-none transition-colors ${
+                isCodeFocused || verificationCode
+                  ? "border-[#3f55ff]"
+                  : "border-[#d2d2d2]"
+              } placeholder:text-[#d2d2d2] placeholder:font-medium`}
+            />
+            {/* 타이머 표시 */}
+            {timeLeft > 0 && (
+              <div className="absolute right-5 top-1/2 -translate-y-1/2">
+                <span className="text-[16px] font-semibold text-[#FA2929]">
+                  {formatTime(timeLeft)}
+                </span>
+              </div>
+            )}
+          </div>
 
           {/* 재발송 텍스트 버튼 */}
           <div className="mt-3 text-center">
             <button
               onClick={handleResendCode}
-              disabled={isLoading || timeLeft > 0}
+              disabled={isLoading}
               className={`text-[14px] font-medium underline transition-colors ${
-                isLoading || timeLeft > 0
+                isLoading
                   ? "text-gray-400 cursor-not-allowed"
                   : "text-[#B4B4B4] cursor-pointer"
               }`}
             >
-              {isLoading
-                ? "발송중..."
-                : timeLeft > 0
-                  ? `인증번호 다시 받기 (${formatTime(timeLeft)})`
-                  : "인증번호 다시 받기"}
+              {isLoading ? "발송중..." : "인증번호 다시 받기"}
             </button>
           </div>
         </div>

@@ -6,6 +6,7 @@ import MainContainer from "../../components/MainContainer";
 import Icons from "../../components/Icons";
 import { useSignupStore } from "../../store/signupStore";
 import useDebouncedApi from "../../utils/debouncedApi";
+import { formatTime } from "@/app/utils/format";
 
 export default function VerifyPage() {
   const router = useRouter();
@@ -31,7 +32,7 @@ export default function VerifyPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const [timeLeft, setTimeLeft] = useState(0);
+  const [timeLeft, setTimeLeft] = useState(180); // 180초(3분)로 시작
   const [isCodeSent, setIsCodeSent] = useState(false);
 
   // 디바운스 API 훅 사용
@@ -83,7 +84,7 @@ export default function VerifyPage() {
 
       setSuccess("인증번호가 발송되었습니다.");
       setIsCodeSent(true);
-      setTimeLeft(300); // 5분
+      setTimeLeft(180); // 180초(3분)
     } catch (err) {
       setError(
         err instanceof Error ? err.message : "인증번호 발송에 실패했습니다.",
@@ -139,12 +140,6 @@ export default function VerifyPage() {
     }
   };
 
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${mins}:${secs.toString().padStart(2, "0")}`;
-  };
-
   return (
     <MainContainer>
       {/* 헤더 영역 - 뒤로가기 + 제목 */}
@@ -181,37 +176,43 @@ export default function VerifyPage() {
               *
             </span>
           </div>
-          <input
-            type="text"
-            value={verificationCode}
-            onChange={(e) => handleCodeChange(e.target.value)}
-            onFocus={() => setIsCodeFocused(true)}
-            onBlur={() => setIsCodeFocused(false)}
-            placeholder="인증번호 6자리를 입력해주세요"
-            maxLength={6}
-            className={`w-full h-[59px] border-[1.5px] rounded-[7px] px-5 text-[16px] font-medium outline-none transition-colors ${
-              isCodeFocused || verificationCode
-                ? "border-[#3f55ff]"
-                : "border-[#d2d2d2]"
-            } placeholder:text-[#d2d2d2] placeholder:font-medium`}
-          />
+          <div className="relative">
+            <input
+              type="text"
+              value={verificationCode}
+              onChange={(e) => handleCodeChange(e.target.value)}
+              onFocus={() => setIsCodeFocused(true)}
+              onBlur={() => setIsCodeFocused(false)}
+              placeholder="인증번호를 입력해 주세요"
+              maxLength={6}
+              className={`w-full h-[59px] border-[1.5px] rounded-[7px] px-5 pr-[80px] text-[16px] font-medium outline-none transition-colors ${
+                isCodeFocused || verificationCode
+                  ? "border-[#3f55ff]"
+                  : "border-[#d2d2d2]"
+              } placeholder:text-[#d2d2d2] placeholder:font-medium`}
+            />
+            {/* 타이머 표시 */}
+            {timeLeft > 0 && (
+              <div className="absolute right-5 top-1/2 -translate-y-1/2">
+                <span className="text-[16px] font-semibold text-[#FA2929]">
+                  {formatTime(timeLeft)}
+                </span>
+              </div>
+            )}
+          </div>
 
           {/* 재발송 텍스트 버튼 */}
           <div className="mt-3 text-center">
             <button
               onClick={handleSendCode}
-              disabled={isLoading || timeLeft > 0}
+              disabled={isLoading}
               className={`text-[14px] font-medium underline transition-colors ${
-                isLoading || timeLeft > 0
+                isLoading
                   ? "text-gray-400 cursor-not-allowed"
                   : "text-[#B4B4B4] cursor-pointer"
               }`}
             >
-              {isLoading
-                ? "발송중..."
-                : timeLeft > 0
-                  ? `인증번호 다시 받기 (${formatTime(timeLeft)})`
-                  : "인증번호 다시 받기"}
+              {isLoading ? "발송중..." : "인증번호 다시 받기"}
             </button>
           </div>
         </div>

@@ -8,6 +8,7 @@ import useDebouncedApi from "../../../utils/debouncedApi";
 import {
   formatPhoneNumberDisplay,
   formatVerificationCode,
+  formatTime,
 } from "../../../utils/format";
 
 export default function FindPasswordVerifyPage() {
@@ -21,6 +22,7 @@ export default function FindPasswordVerifyPage() {
   const [verificationCode, setVerificationCode] = useState("");
   const [isCodeFocused, setIsCodeFocused] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(180); // 180초(3분)
 
   // 아이디와 전화번호가 없으면 첫 페이지로 리다이렉트
   useEffect(() => {
@@ -29,6 +31,24 @@ export default function FindPasswordVerifyPage() {
       router.push("/find/password");
     }
   }, [memberId, phone, router]);
+
+  // 페이지 로드 시 자동으로 인증번호 발송
+  useEffect(() => {
+    if (memberId && phone) {
+      handleResendCode();
+    }
+  }, []);
+
+  // 타이머 효과
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (timeLeft > 0) {
+      interval = setInterval(() => {
+        setTimeLeft((prev) => prev - 1);
+      }, 1000);
+    }
+    return () => clearInterval(interval);
+  }, [timeLeft]);
 
   const handleGoBack = () => {
     router.back();
@@ -60,6 +80,7 @@ export default function FindPasswordVerifyPage() {
 
       if (response) {
         alert("인증번호가 재발송되었습니다.");
+        setTimeLeft(180); // 타이머 재시작 (180초)
         setVerificationCode("");
       }
     } catch (err) {
@@ -130,21 +151,31 @@ export default function FindPasswordVerifyPage() {
 
         {/* 인증번호 입력 */}
         <div className="mb-[24px]">
-          <input
-            type="text"
-            value={verificationCode}
-            onChange={(e) => handleCodeChange(e.target.value)}
-            onFocus={() => setIsCodeFocused(true)}
-            onBlur={() => setIsCodeFocused(false)}
-            placeholder="인증번호를 입력해 주세요"
-            maxLength={6}
-            disabled={isLoading}
-            className={`w-full h-[59px] border-[1.5px] rounded-[7px] px-5 text-[16px] font-medium outline-none transition-colors ${
-              isCodeFocused || verificationCode
-                ? "border-[#3f55ff]"
-                : "border-[#d2d2d2]"
-            } placeholder:text-[#d2d2d2] placeholder:font-medium bg-white`}
-          />
+          <div className="relative">
+            <input
+              type="text"
+              value={verificationCode}
+              onChange={(e) => handleCodeChange(e.target.value)}
+              onFocus={() => setIsCodeFocused(true)}
+              onBlur={() => setIsCodeFocused(false)}
+              placeholder="인증번호를 입력해 주세요"
+              maxLength={6}
+              disabled={isLoading}
+              className={`w-full h-[59px] border-[1.5px] rounded-[7px] px-5 pr-[80px] text-[16px] font-medium outline-none transition-colors ${
+                isCodeFocused || verificationCode
+                  ? "border-[#3f55ff]"
+                  : "border-[#d2d2d2]"
+              } placeholder:text-[#d2d2d2] placeholder:font-medium bg-white`}
+            />
+            {/* 타이머 표시 */}
+            {timeLeft > 0 && (
+              <div className="absolute right-5 top-1/2 -translate-y-1/2">
+                <span className="text-[16px] font-semibold text-[#FA2929]">
+                  {formatTime(timeLeft)}
+                </span>
+              </div>
+            )}
+          </div>
 
           {/* 재발송 텍스트 버튼 */}
           <div className="mt-[37px] text-center">
