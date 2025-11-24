@@ -6,7 +6,7 @@ import MainContainer from "../../../components/MainContainer";
 import Icons from "../../../components/Icons";
 import { useSignupStore } from "../../../store/signupStore";
 import BreedSelectorModal from "../../../components/BreedSelectorModal";
-import DatePickerModal from "../../../components/DatePickerModal";
+import DateWheelPicker from "@/app/components/DateWheelPicker";
 
 export default function ParentDetailsPage() {
   const router = useRouter();
@@ -185,11 +185,12 @@ export default function ParentDetailsPage() {
       />
 
       {/* 생일 선택 모달 */}
-      <DatePickerModal
+      <DateWheelPicker
         isOpen={showBirthdayModal}
         onClose={() => setShowBirthdayModal(false)}
         selectedDate={birthday || new Date()}
         onDateSelect={handleBirthdaySelect}
+        title="반려견 생일 변경"
       />
     </MainContainer>
   );
