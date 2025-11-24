@@ -4,8 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import MainContainer from "../../components/MainContainer";
 import Icons from "../../components/Icons";
-import BreedSelectorModal from "../../components/BreedSelectorModal";
-import DatePickerModal from "../../components/DatePickerModal";
+import DateWheelPicker from "../../components/DateWheelPicker";
 import { useAuth } from "../../components/CombinedProvider";
 import { api } from "../../utils/api";
 import { uploadFile } from "../../utils/upload";
@@ -27,7 +26,6 @@ export default function ParentUpdatePage() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
-  const [showBreedModal, setShowBreedModal] = useState(false);
   const [showBirthdayModal, setShowBirthdayModal] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
@@ -102,14 +100,6 @@ export default function ParentUpdatePage() {
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
-  };
-
-  const handleGenderSelect = (selectedGender: string) => {
-    setGender(selectedGender);
-  };
-
-  const handleBreedSelect = (selectedBreed: string) => {
-    setBreed(selectedBreed);
   };
 
   const handleBirthdaySelect = (selectedDate: Date) => {
@@ -325,17 +315,16 @@ export default function ParentUpdatePage() {
             />
           </div>
 
-          {/* 성별 */}
+          {/* 성별 (수정 불가) */}
           <div className="mb-[20px]">
             <p className="text-[18px] font-semibold text-[#363e4a] mb-[11px]">
               성별
             </p>
             <div className="flex gap-[9px]">
-              <button
-                onClick={() => handleGenderSelect("MALE")}
-                className={`flex-1 h-[59px] rounded-[7px] flex items-center justify-center transition-colors ${
+              <div
+                className={`flex-1 h-[59px] rounded-[7px] flex items-center justify-center ${
                   gender === "MALE" ? "bg-[#e9fbff]" : "bg-[#f0f0f0]"
-                }`}
+                } opacity-60 cursor-not-allowed`}
               >
                 <span
                   className={`text-[16px] font-medium ${
@@ -344,12 +333,11 @@ export default function ParentUpdatePage() {
                 >
                   남아
                 </span>
-              </button>
-              <button
-                onClick={() => handleGenderSelect("FEMALE")}
-                className={`flex-1 h-[59px] rounded-[7px] flex items-center justify-center transition-colors ${
+              </div>
+              <div
+                className={`flex-1 h-[59px] rounded-[7px] flex items-center justify-center ${
                   gender === "FEMALE" ? "bg-[#ffeaef]" : "bg-[#f0f0f0]"
-                }`}
+                } opacity-60 cursor-not-allowed`}
               >
                 <span
                   className={`text-[16px] font-medium ${
@@ -358,23 +346,20 @@ export default function ParentUpdatePage() {
                 >
                   여아
                 </span>
-              </button>
+              </div>
             </div>
           </div>
 
-          {/* 견종 */}
+          {/* 견종 (수정 불가) */}
           <div className="mb-[20px]">
             <p className="text-[18px] font-semibold text-[#363e4a] mb-[11px]">
               견종
             </p>
-            <button
-              onClick={() => setShowBreedModal(true)}
-              className="w-full bg-white rounded-[10px] shadow-[0px_1px_3px_0px_rgba(0,0,0,0.1)] h-[57px] px-[20px] flex items-center"
-            >
+            <div className="w-full bg-white rounded-[10px] shadow-[0px_1px_3px_0px_rgba(0,0,0,0.1)] h-[57px] px-[20px] flex items-center opacity-60 cursor-not-allowed">
               <p className="text-[14px] font-semibold text-[#6e7783]">
                 {breed || "견종을 선택해주세요"}
               </p>
-            </button>
+            </div>
           </div>
 
           {/* 생일 */}
@@ -413,20 +398,13 @@ export default function ParentUpdatePage() {
         </button>
       </div>
 
-      {/* 견종 선택 모달 */}
-      <BreedSelectorModal
-        isOpen={showBreedModal}
-        onClose={() => setShowBreedModal(false)}
-        selectedBreed={breed}
-        onBreedSelect={handleBreedSelect}
-      />
-
       {/* 생일 선택 모달 */}
-      <DatePickerModal
+      <DateWheelPicker
         isOpen={showBirthdayModal}
         onClose={() => setShowBirthdayModal(false)}
         selectedDate={birthday || new Date()}
         onDateSelect={handleBirthdaySelect}
+        title="반려견 생일 변경"
       />
     </MainContainer>
   );

@@ -9,6 +9,7 @@ import { useAuth } from "../../components/CombinedProvider";
 import { api } from "../../utils/api";
 import { formatApiDate, formatDate } from "../../utils/date";
 import { getImageUrl } from "../../utils/image";
+import DateWheelPicker from "@/app/components/DateWheelPicker";
 
 interface Reservation {
   id: number;
@@ -300,11 +301,12 @@ export default function ParentStatusPage() {
       </div>
 
       {/* 날짜 선택 모달 */}
-      <DatePickerModal
+      <DateWheelPicker
         isOpen={isDatePickerOpen}
         onClose={() => setIsDatePickerOpen(false)}
         selectedDate={selectedDate}
         onDateSelect={handleDateSelect}
+        title="반려견 생일 변경"
       />
     </MainContainer>
   );
