@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { PetDetail } from "../types/pet";
+import { useSignupStore } from "../store/signupStore";
 
 interface RejectedCardProps {
   petDetail: PetDetail;
@@ -9,10 +10,12 @@ interface RejectedCardProps {
 
 export default function RejectedCard({ petDetail }: RejectedCardProps) {
   const router = useRouter();
+  const { setIsAddingPet } = useSignupStore();
 
   const handleFindAcademy = () => {
-    // 유치원 찾기 페이지로 이동 (온보딩 페이지로)
-    router.push("/signup/parent/info");
+    // 강아지 추가 모드로 설정하여 접근 권한 체크 우회
+    setIsAddingPet(true);
+    router.push("/signup/parent/academy");
   };
 
   return (

@@ -8,7 +8,12 @@ import { useSignupStore } from "../../../store/signupStore";
 
 export default function ParentInfoPage() {
   const router = useRouter();
-  const { signupData, updatePetName, updatePetGender, isParentOnboardingCompleted } = useSignupStore();
+  const {
+    signupData,
+    updatePetName,
+    updatePetGender,
+    isParentOnboardingCompleted,
+  } = useSignupStore();
 
   const [petName, setPetName] = useState(signupData.petName || "");
   const [petGender, setPetGender] = useState(signupData.petGender || "");
@@ -20,7 +25,7 @@ export default function ParentInfoPage() {
     if (signupData.isAddingPet) {
       return;
     }
-    
+
     // 온보딩 완료 여부 체크
     if (!isParentOnboardingCompleted()) {
       alert("잘못된 접근입니다.");

@@ -10,7 +10,12 @@ import DatePickerModal from "../../../components/DatePickerModal";
 
 export default function ParentDetailsPage() {
   const router = useRouter();
-  const { signupData, updatePetBreed, updatePetBirthday, isParentOnboardingCompleted } = useSignupStore();
+  const {
+    signupData,
+    updatePetBreed,
+    updatePetBirthday,
+    isParentOnboardingCompleted,
+  } = useSignupStore();
 
   const [breed, setBreed] = useState(signupData.petBreed || "");
   const [birthday, setBirthday] = useState<Date | null>(
@@ -32,7 +37,7 @@ export default function ParentDetailsPage() {
     if (signupData.isAddingPet) {
       return;
     }
-    
+
     // 온보딩 완료 여부 체크
     if (!isParentOnboardingCompleted()) {
       alert("잘못된 접근입니다.");
@@ -92,7 +97,8 @@ export default function ParentDetailsPage() {
     router.push("/signup/parent/picture");
   };
 
-  const isFormValid = breed?.trim() !== "" && birthday !== null && signupData.petBirthday !== "";
+  const isFormValid =
+    breed?.trim() !== "" && birthday !== null && signupData.petBirthday !== "";
 
   return (
     <MainContainer>
@@ -149,7 +155,9 @@ export default function ParentDetailsPage() {
             className="w-full h-[59px] border border-[#d2d2d2] rounded-[7px] px-5 text-[16px] font-medium outline-none transition-colors text-left"
           >
             <span className={birthday ? "text-[#363e4a]" : "text-[#b4b4b4]"}>
-              {birthday ? formatBirthdayDisplay(birthday) : "생일을 선택해주세요"}
+              {birthday
+                ? formatBirthdayDisplay(birthday)
+                : "생일을 선택해주세요"}
             </span>
           </button>
         </div>

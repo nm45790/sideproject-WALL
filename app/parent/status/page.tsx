@@ -81,13 +81,6 @@ export default function ParentStatusPage() {
     setSelectedDate(date);
   };
 
-  // 이전 날짜로 이동
-  const handlePrevDay = () => {
-    const prevDay = new Date(selectedDate);
-    prevDay.setDate(prevDay.getDate() - 1);
-    setSelectedDate(prevDay);
-  };
-
   // 다음 날짜로 이동
   const handleNextDay = () => {
     const nextDay = new Date(selectedDate);
@@ -105,10 +98,24 @@ export default function ParentStatusPage() {
     );
   };
 
+  // 과거 날짜인지 확인
+  const isPastDate = (date: Date) => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const checkDate = new Date(date);
+    checkDate.setHours(0, 0, 0, 0);
+    return checkDate < today;
+  };
+
   // 등원 신청하기
   const handleApplyReservation = async () => {
     if (!petId || !academyId) {
       alert("강아지 정보가 없습니다.");
+      return;
+    }
+
+    if (isPastDate(selectedDate)) {
+      alert("과거 날짜는 예약할 수 없습니다.");
       return;
     }
 
@@ -273,15 +280,21 @@ export default function ParentStatusPage() {
       <div className="fixed bottom-0 left-0 right-0 bg-white px-[20px] py-[25px] border-t border-[#f0f0f0]">
         <button
           onClick={handleApplyReservation}
-          disabled={isApplying || !petId || !academyId}
+          disabled={
+            isApplying || !petId || !academyId || isPastDate(selectedDate)
+          }
           className={`w-full h-[59px] rounded-[7px] flex items-center justify-center transition-colors ${
-            isApplying || !petId || !academyId
+            isApplying || !petId || !academyId || isPastDate(selectedDate)
               ? "bg-[#f0f0f0] cursor-not-allowed"
               : "bg-[#3f55ff] hover:bg-[#3646e6] cursor-pointer"
           }`}
         >
           <span className="font-semibold text-white text-[16px]">
-            {isApplying ? "신청 중..." : "등원신청"}
+            {isApplying
+              ? "신청 중..."
+              : isPastDate(selectedDate)
+                ? "과거 날짜"
+                : "등원신청"}
           </span>
         </button>
       </div>
