@@ -1,5 +1,7 @@
 "use client";
 
+import { useState, useEffect } from "react";
+
 interface RegionSelectorModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -35,8 +37,29 @@ export default function RegionSelectorModal({
     { code: "JEJU", name: "제주" },
   ];
 
-  const handleRegionClick = (code: string, name: string) => {
-    onRegionSelect(code, name);
+  // 내부에서 선택된 지역 관리 (UI 반영용)
+  const [tempSelectedRegion, setTempSelectedRegion] = useState(selectedRegion);
+
+  // 모달이 열릴 때 선택된 지역으로 초기화
+  useEffect(() => {
+    if (isOpen) {
+      setTempSelectedRegion(selectedRegion);
+    }
+  }, [isOpen, selectedRegion]);
+
+  const handleRegionClick = (code: string) => {
+    // 선택만 업데이트 (모달은 닫지 않음)
+    setTempSelectedRegion(code);
+  };
+
+  const handleComplete = () => {
+    // 선택된 지역 찾기
+    const selectedRegionData = regions.find(
+      (r) => r.code === tempSelectedRegion,
+    );
+    if (selectedRegionData) {
+      onRegionSelect(selectedRegionData.code, selectedRegionData.name);
+    }
     onClose();
   };
 
@@ -44,7 +67,7 @@ export default function RegionSelectorModal({
 
   return (
     <div
-      className="fixed inset-0 z-50 bg-black bg-opacity-30 flex items-end"
+      className="fixed inset-0 z-50 bg-[#000000]/70 flex items-end"
       onClick={onClose}
     >
       <div
@@ -76,9 +99,9 @@ export default function RegionSelectorModal({
             {regions.map((region) => (
               <button
                 key={region.code}
-                onClick={() => handleRegionClick(region.code, region.name)}
+                onClick={() => handleRegionClick(region.code)}
                 className={`h-[48px] rounded-[5px] flex items-center justify-center text-[14px] font-semibold transition-colors ${
-                  selectedRegion === region.code
+                  tempSelectedRegion === region.code
                     ? "bg-[#ECEFFF] text-[#3F55FF]"
                     : "bg-[#F5F5F5] text-[#BBBBBB] hover:bg-[#e8e8e8]"
                 }`}
@@ -92,7 +115,7 @@ export default function RegionSelectorModal({
         {/* 선택 완료 버튼 */}
         <div className="px-5 py-[20px] flex-shrink-0">
           <button
-            onClick={onClose}
+            onClick={handleComplete}
             className="w-full h-[59px] bg-[#3f55ff] rounded-[7px] flex items-center justify-center"
           >
             <span className="font-semibold text-[16px] text-white">

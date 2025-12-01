@@ -37,6 +37,30 @@ export default function ParentAcademyPage() {
   const [academies, setAcademies] = useState<Academy[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
+  // 지역 코드를 sggCode로 변환
+  const getSggCodeFromRegion = (regionCode: string): string | null => {
+    const regionToSggCode: Record<string, string> = {
+      SEOUL: "11",
+      BUSAN: "26",
+      DAEGU: "27",
+      INCHEON: "28",
+      GWANGJU: "29",
+      DAEJEON: "30",
+      ULSAN: "31",
+      SEJONG: "36",
+      GYEONGGI: "41",
+      CHUNGBUK: "43",
+      CHUNGNAM: "44",
+      JEONBUK: "45",
+      JEONNAM: "46",
+      GYEONGBUK: "47",
+      GYEONGNAM: "48",
+      JEJU: "50",
+      GANGWON: "51",
+    };
+    return regionToSggCode[regionCode] || null;
+  };
+
   // 선택된 유치원 이름 표시용
   const selectedAcademy =
     signupData.petAcademyId !== 0 && selectedAcademyName
@@ -57,15 +81,22 @@ export default function ParentAcademyPage() {
     }
   }, [router, isParentOnboardingCompleted, signupData.isAddingPet]);
 
-  // 페이지 로드 시 유치원 목록 조회
+  // 페이지 로드 시 및 지역 변경 시 유치원 목록 조회
   useEffect(() => {
     const fetchAcademies = async () => {
       setIsLoading(true);
       try {
+        // sggCode 파라미터 생성
+        const sggCode = getSggCodeFromRegion(signupData.regionCode);
+        let url = `/api/v1/academies/search`;
+        if (sggCode) {
+          url += `?sggCode=${sggCode}`;
+        }
+
         const response = await api.get<{
           code: number;
           data: Academy[];
-        }>(`/api/v1/academies/search`);
+        }>(url);
 
         if (response.success && response.data) {
           setAcademies(response.data.data || []);
@@ -81,7 +112,7 @@ export default function ParentAcademyPage() {
     };
 
     fetchAcademies();
-  }, []);
+  }, [signupData.regionCode]);
 
   const handleAcademySelect = (academyId: number, academyName?: string) => {
     updatePetAcademyId(academyId);
