@@ -3,20 +3,18 @@
 import { useEffect, useState, useMemo } from "react";
 import Link from "next/link";
 import MainContainer from "../components/MainContainer";
-import Splash from "../components/Splash";
 import DatePickerModal from "../components/DatePickerModal";
 import { useAuth } from "../components/CombinedProvider";
 import { api } from "../utils/api";
 import { formatApiDate, formatDate } from "../utils/date";
 import { useRouter } from "next/navigation";
+import { useStateStore } from "../store/stateStore";
 
 export default function Academy() {
-  const isProduction = process.env.NODE_ENV === "production";
   const userInfo = useAuth();
   const router = useRouter();
-  const [splashFading, setSplashFading] = useState(isProduction ? false : true);
-  const [mainVisible, setMainVisible] = useState(isProduction ? false : true);
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const { getSelectedDate, updateSelectedDate } = useStateStore();
+  const [selectedDate, setSelectedDate] = useState(getSelectedDate());
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const [totalDogs, setTotalDogs] = useState(0);
 
@@ -48,25 +46,9 @@ export default function Academy() {
     fetchScheduleData(selectedDate);
   }, [selectedDate, userInfo?.academyId]);
 
-  useEffect(() => {
-    if (isProduction) {
-      const fadeOutTimer = setTimeout(() => {
-        setSplashFading(true);
-      }, 900);
-
-      const mainTimer = setTimeout(() => {
-        setMainVisible(true);
-      }, 1000);
-
-      return () => {
-        clearTimeout(fadeOutTimer);
-        clearTimeout(mainTimer);
-      };
-    }
-  }, [isProduction]);
-
   const handleDateSelect = (date: Date) => {
     setSelectedDate(date);
+    updateSelectedDate(date);
   };
 
   // 오늘 날짜인지 확인
@@ -91,11 +73,7 @@ export default function Academy() {
   return (
     <>
       {/* 메인 콘텐츠 */}
-      <div
-        className={`transition-all duration-700 ease-out ${
-          mainVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
-        } w-full flex justify-center`}
-      >
+      <div className={`w-full flex justify-center`}>
         <MainContainer bg="#f3f4f9">
           <div className="relative w-full min-h-dvh">
             {/* 인사말 및 아카데미 이름 */}
