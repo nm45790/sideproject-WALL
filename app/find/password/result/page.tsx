@@ -4,12 +4,12 @@ import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import MainContainer from "../../../components/MainContainer";
 import Icons from "../../../components/Icons";
-import useDebouncedRequest from "../../../hooks/useDebouncedRequest";
+import useDebouncedApi from "../../../utils/debouncedApi";
 
 export default function FindPasswordResultPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const api = useDebouncedRequest();
+  const api = useDebouncedApi();
 
   const token = searchParams.get("token") || "";
 
@@ -60,14 +60,14 @@ export default function FindPasswordResultPage() {
     setIsLoading(true);
 
     try {
-      const response = await api.executeImmediately(
-        "post",
-        "/api/v1/members/reset-password",
-        {
+      const response = await api.execute({
+        url: "/api/v1/members/reset-password",
+        method: "POST",
+        data: {
           resetToken: token,
           newPassword: newPassword,
         },
-      );
+      });
 
       if (response && response.data) {
         // 응답 메시지 표시

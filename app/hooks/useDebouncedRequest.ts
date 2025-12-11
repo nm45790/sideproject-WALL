@@ -1,5 +1,4 @@
 import { useCallback, useRef } from "react";
-import { api } from "../utils/api";
 
 interface DebouncedRequestOptions {
   delay?: number;
@@ -10,22 +9,47 @@ interface DebouncedRequestOptions {
 
 interface RequestConfig {
   url: string;
+  method: "POST" | "PUT" | "PATCH" | "DELETE";
   data?: any;
+  headers?: Record<string, string>;
 }
 
 export const useDebouncedRequest = (options: DebouncedRequestOptions = {}) => {
   const { delay = 500, onSuccess, onError, onLoading } = options;
 
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const abortControllerRef = useRef<AbortController | null>(null);
 
   const makeRequest = useCallback(
-    async (method: "post" | "put" | "patch" | "delete", config: RequestConfig) => {
+    async (config: RequestConfig) => {
+      // 이전 요청 취소
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+      }
+
+      // 새로운 AbortController 생성
+      abortControllerRef.current = new AbortController();
+
       try {
         onLoading?.(true);
-        // api[method]를 사용하여 해당 HTTP 메서드로 요청 보냄
-        const response = await api[method](config.url, config.data);
-        onSuccess?.(response);
-        return response;
+
+        const response = await fetch(config.url, {
+          method: config.method,
+          headers: {
+            "Content-Type": "application/json",
+            ...config.headers,
+          },
+          body: config.data ? JSON.stringify(config.data) : undefined,
+          signal: abortControllerRef.current.signal,
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        onSuccess?.(data);
+        return data;
       } catch (error) {
         if (error instanceof Error && error.name !== "AbortError") {
           onError?.(error);
@@ -39,55 +63,67 @@ export const useDebouncedRequest = (options: DebouncedRequestOptions = {}) => {
   );
 
   const debouncedRequest = useCallback(
-    (method: "post" | "put" | "patch" | "delete", config: RequestConfig) => {
+    (config: RequestConfig) => {
+      // 이전 타이머 클리어
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
       }
+
+      // 새로운 타이머 설정
       timeoutRef.current = setTimeout(() => {
-        makeRequest(method, config);
+        makeRequest(config);
       }, delay);
     },
     [makeRequest, delay],
   );
 
+  // POST 요청
   const post = useCallback(
-    (url: string, data?: any) => {
-      debouncedRequest("post", { url, data });
+    (url: string, data?: any, headers?: Record<string, string>) => {
+      debouncedRequest({ url, method: "POST", data, headers });
     },
     [debouncedRequest],
   );
 
+  // PUT 요청
   const put = useCallback(
-    (url: string, data?: any) => {
-      debouncedRequest("put", { url, data });
+    (url: string, data?: any, headers?: Record<string, string>) => {
+      debouncedRequest({ url, method: "PUT", data, headers });
     },
     [debouncedRequest],
   );
 
+  // PATCH 요청
   const patch = useCallback(
-    (url: string, data?: any) => {
-      debouncedRequest("patch", { url, data });
+    (url: string, data?: any, headers?: Record<string, string>) => {
+      debouncedRequest({ url, method: "PATCH", data, headers });
     },
     [debouncedRequest],
   );
 
-  const delRequest = useCallback( // 'del' is a reserved keyword, renamed to 'delRequest'
-    (url: string, data?: any) => {
-      debouncedRequest("delete", { url, data });
+  // DELETE 요청
+  const del = useCallback(
+    (url: string, headers?: Record<string, string>) => {
+      debouncedRequest({ url, method: "DELETE", headers });
     },
     [debouncedRequest],
   );
 
+  // 즉시 실행 (디바운스 없이)
   const executeImmediately = useCallback(
-    (method: "post" | "put" | "patch" | "delete", url: string, data?: any) => {
-      return makeRequest(method, { url, data });
+    (config: RequestConfig) => {
+      return makeRequest(config);
     },
     [makeRequest],
   );
 
+  // 취소 함수
   const cancel = useCallback(() => {
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
+    }
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
     }
   }, []);
 
@@ -95,7 +131,7 @@ export const useDebouncedRequest = (options: DebouncedRequestOptions = {}) => {
     post,
     put,
     patch,
-    delete: delRequest, // Changed to delRequest
+    delete: del,
     executeImmediately,
     cancel,
   };
