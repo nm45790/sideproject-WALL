@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import MainContainer from "../../components/MainContainer";
 import Icons from "../../components/Icons";
 import { useSignupStore } from "../../store/signupStore";
-import useDebouncedApi from "../../utils/debouncedApi";
+import useDebouncedRequest from "../../hooks/useDebouncedRequest";
 import { formatTime } from "@/app/utils/format";
 
 export default function VerifyPage() {
@@ -36,7 +36,7 @@ export default function VerifyPage() {
   const [isCodeSent, setIsCodeSent] = useState(false);
 
   // 디바운스 API 훅 사용
-  const api = useDebouncedApi();
+  const api = useDebouncedRequest();
 
   // 타이머 효과
   useEffect(() => {
@@ -76,11 +76,11 @@ export default function VerifyPage() {
     setSuccess("");
 
     try {
-      await api.execute({
-        url: "/api/v1/phone-verification/send-code",
-        method: "POST",
-        data: { phoneNumber: signupData.memberPhone.replace(/-/g, "") },
-      });
+      await api.executeImmediately(
+        "post",
+        "/api/v1/phone-verification/send-code",
+        { phoneNumber: signupData.memberPhone.replace(/-/g, "") },
+      );
 
       setSuccess("인증번호가 발송되었습니다.");
       setIsCodeSent(true);

@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import MainContainer from "../../../components/MainContainer";
 import Icons from "../../../components/Icons";
-import useDebouncedApi from "../../../utils/debouncedApi";
+import useDebouncedRequest from "../../../hooks/useDebouncedRequest";
 import {
   formatPhoneNumberDisplay,
   formatVerificationCode,
@@ -14,7 +14,7 @@ import {
 export default function FindPasswordVerifyPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const api = useDebouncedApi();
+  const api = useDebouncedRequest();
 
   const memberId = searchParams.get("memberId") || "";
   const phone = searchParams.get("phone") || "";
@@ -68,15 +68,15 @@ export default function FindPasswordVerifyPage() {
     setIsLoading(true);
 
     try {
-      const response = await api.execute({
-        url: "/api/v1/members/find-password/step1",
-        method: "POST",
-        data: {
+      const response = await api.executeImmediately(
+        "post",
+        "/api/v1/members/find-password/step1",
+        {
           verfiyType: "phone",
           memberId,
           phone: phone,
         },
-      });
+      );
 
       if (response) {
         alert("인증번호가 재발송되었습니다.");
@@ -101,16 +101,16 @@ export default function FindPasswordVerifyPage() {
     setIsLoading(true);
 
     try {
-      const response = await api.execute({
-        url: "/api/v1/members/find-password/step2",
-        method: "POST",
-        data: {
+      const response = await api.executeImmediately(
+        "post",
+        "/api/v1/members/find-password/step2",
+        {
           verfiyType: "phone",
           memberId,
           phone: phone,
           verificationCode: codeToVerify,
         },
-      });
+      );
 
       if (response && response.data) {
         router.push(

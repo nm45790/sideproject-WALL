@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import MainContainer from "../../components/MainContainer";
 import Icons from "../../components/Icons";
-import useDebouncedApi from "../../utils/debouncedApi";
+import useDebouncedRequest from "../../hooks/useDebouncedRequest";
 import {
   formatPhoneNumberInput,
   formatName,
@@ -13,7 +13,7 @@ import {
 
 export default function FindIdPage() {
   const router = useRouter();
-  const api = useDebouncedApi();
+  const api = useDebouncedRequest();
 
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -42,15 +42,15 @@ export default function FindIdPage() {
 
     try {
       const phoneNumber = removePhoneNumberHyphens(phone);
-      const response = await api.execute({
-        url: "/api/v1/members/find-id/send-verification",
-        method: "POST",
-        data: {
+      const response = await api.executeImmediately(
+        "post",
+        "/api/v1/members/find-id/send-verification",
+        {
           verfiyType: "phone",
           name: name,
           phone: phoneNumber,
         },
-      });
+      );
 
       if (response) {
         alert("인증번호가 발송되었습니다.");

@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import MainContainer from "../../components/MainContainer";
 import Icons from "../../components/Icons";
 import { useSignupStore } from "../../store/signupStore";
-import useDebouncedApi from "../../utils/debouncedApi";
+import useDebouncedRequest from "../../hooks/useDebouncedRequest";
 import { authService } from "../../utils/auth";
 
 export default function AccountPage() {
@@ -44,7 +44,7 @@ export default function AccountPage() {
   const [showPasswordGuide, setShowPasswordGuide] = useState(false);
 
   // 디바운스 API 훅 사용
-  const api = useDebouncedApi();
+  const api = useDebouncedRequest();
 
   // localStorage에서 저장된 값으로 초기값 설정
   useEffect(() => {
@@ -93,10 +93,10 @@ export default function AccountPage() {
 
     try {
       // 회원가입 API 호출
-      await api.execute({
-        url: "/api/v1/members/step1",
-        method: "POST",
-        data: {
+      await api.executeImmediately(
+        "post",
+        "/api/v1/members/step1",
+        {
           memberId: signupData.memberId,
           memberPassword: signupData.memberPassword,
           memberPhone: signupData.memberPhone.replace(/-/g, ""), // 하이픈 제거
@@ -106,7 +106,7 @@ export default function AccountPage() {
           agreePrivacy: signupData.termsSelectOption.privacy,
           agreeMarketing: signupData.termsSelectOption.marketing,
         },
-      });
+      );
 
       // 회원가입 성공 후 자동 로그인
       const loginResult = await authService.login({

@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import MainContainer from "../../components/MainContainer";
 import Icons from "../../components/Icons";
 import { useSignupStore } from "../../store/signupStore";
-import useDebouncedApi from "../../utils/debouncedApi";
+import useDebouncedRequest from "../../hooks/useDebouncedRequest";
 
 export default function DetailsPage() {
   const router = useRouter();
@@ -42,7 +42,7 @@ export default function DetailsPage() {
   const [isLoading, setIsLoading] = useState(false);
 
   // 디바운스 API 훅 사용
-  const api = useDebouncedApi();
+  const debouncedApi = useDebouncedRequest();
 
   // localStorage에서 저장된 값으로 초기값 설정
   useEffect(() => {
@@ -147,28 +147,28 @@ export default function DetailsPage() {
     try {
       // 중복 체크 먼저 실행 (운영에서만)
       if (process.env.NEXT_PUBLIC_ENV === "production") {
-        const checkResult = await api.execute({
-          url: "/api/v1/members/check-unique",
-          method: "POST",
-          data: {
+        const checkResult = await debouncedApi.executeImmediately(
+          "post",
+          "/api/v1/members/check-unique",
+          {
             name: signupData.memberName,
             email: signupData.memberEmail,
             phone: signupData.memberPhone,
           },
-        });
+        );
 
-        if (!checkResult.success) {
+        if (!checkResult?.success) {
           alert("이미 가입된 정보가 있습니다.");
           return;
         }
       }
 
       // 중복 체크 통과 후 인증번호 발송
-      await api.execute({
-        url: "/api/v1/phone-verification/send-code",
-        method: "POST",
-        data: { phoneNumber: signupData.memberPhone.replace(/-/g, "") },
-      });
+      await debouncedApi.executeImmediately(
+        "post",
+        "/api/v1/phone-verification/send-code",
+        { phoneNumber: signupData.memberPhone.replace(/-/g, "") },
+      );
 
       alert("인증번호가 발송되었습니다.");
       router.push("/signup/verify");

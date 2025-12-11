@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import MainContainer from "../../components/MainContainer";
 import Icons from "../../components/Icons";
-import useDebouncedApi from "../../utils/debouncedApi";
+import useDebouncedRequest from "../../hooks/useDebouncedRequest";
 import {
   formatPhoneNumberInput,
   removePhoneNumberHyphens,
@@ -12,7 +12,7 @@ import {
 
 export default function FindPasswordPage() {
   const router = useRouter();
-  const api = useDebouncedApi();
+  const api = useDebouncedRequest();
 
   const [memberId, setMemberId] = useState("");
   const [phone, setPhone] = useState("");
@@ -37,15 +37,15 @@ export default function FindPasswordPage() {
 
     try {
       const phoneNumber = removePhoneNumberHyphens(phone);
-      const response = await api.execute({
-        url: "/api/v1/members/find-password/step1",
-        method: "POST",
-        data: {
+      const response = await api.executeImmediately(
+        "post",
+        "/api/v1/members/find-password/step1",
+        {
           verfiyType: "phone",
           memberId,
           phone: phoneNumber,
         },
-      });
+      );
 
       if (response) {
         alert("인증번호가 발송되었습니다.");
