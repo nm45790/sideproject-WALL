@@ -5,8 +5,8 @@ import CombinedProvider from "@/app/components/CombinedProvider";
 import { cookies } from "next/headers";
 
 export const metadata: Metadata = {
-  title: "🐶 Warr",
-  description: "Warr",
+  title: "🐶 WAAL",
+  description: "WAAL",
 };
 
 export const viewport: Viewport = {
