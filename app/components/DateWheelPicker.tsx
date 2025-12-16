@@ -294,8 +294,8 @@ export default function DateWheelPicker({
                             : "text-[#d0cfd0]"
                         }`}
                       >
-                        년
-                      </span>
+                          년
+                        </span>
                     </div>
                   ))}
                 </div>

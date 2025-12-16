@@ -107,34 +107,24 @@ export default function VerifyPage() {
     setSuccess("");
 
     try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL || ""}/api/v1/phone-verification/verify-code`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            phoneNumber: signupData.memberPhone.replace(/-/g, ""),
-            verificationCode: codeToVerify,
-          }),
+      await api.execute({
+        url: "/api/v1/phone-verification/verify-code",
+        method: "POST",
+        data: {
+          phoneNumber: signupData.memberPhone.replace(/-/g, ""),
+          verificationCode: codeToVerify,
         },
-      );
+      });
 
-      if (response.ok) {
-        setSuccess("인증이 완료되었습니다!");
-        // 인증 완료 후 다음 단계로 이동
-        setTimeout(() => {
-          router.push("/signup/account");
-        }, 1500);
-      } else {
-        // 200이 아닌 경우 input 초기화 및 alert
-        setVerificationCode("");
-        alert("인증번호가 올바르지 않습니다. 다시 입력해주세요.");
-      }
+      setSuccess("인증이 완료되었습니다!");
+      // 인증 완료 후 다음 단계로 이동
+      setTimeout(() => {
+        router.push("/signup/account");
+      }, 1500);
     } catch (err) {
+      // 200이 아닌 경우 input 초기화 및 alert
       setVerificationCode("");
-      alert("인증에 실패했습니다. 다시 시도해주세요.");
+      alert("인증번호가 올바르지 않습니다. 다시 입력해주세요.");
     } finally {
       setIsLoading(false);
     }

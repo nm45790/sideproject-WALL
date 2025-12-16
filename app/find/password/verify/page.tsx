@@ -152,21 +152,21 @@ export default function FindPasswordVerifyPage() {
         {/* 인증번호 입력 */}
         <div className="mb-[24px]">
           <div className="relative">
-            <input
-              type="text"
-              value={verificationCode}
-              onChange={(e) => handleCodeChange(e.target.value)}
-              onFocus={() => setIsCodeFocused(true)}
-              onBlur={() => setIsCodeFocused(false)}
-              placeholder="인증번호를 입력해 주세요"
-              maxLength={6}
-              disabled={isLoading}
+          <input
+            type="text"
+            value={verificationCode}
+            onChange={(e) => handleCodeChange(e.target.value)}
+            onFocus={() => setIsCodeFocused(true)}
+            onBlur={() => setIsCodeFocused(false)}
+            placeholder="인증번호를 입력해 주세요"
+            maxLength={6}
+            disabled={isLoading}
               className={`w-full h-[59px] border-[1.5px] rounded-[7px] px-5 pr-[80px] text-[16px] font-medium outline-none transition-colors ${
-                isCodeFocused || verificationCode
-                  ? "border-[#3f55ff]"
-                  : "border-[#d2d2d2]"
-              } placeholder:text-[#d2d2d2] placeholder:font-medium bg-white`}
-            />
+              isCodeFocused || verificationCode
+                ? "border-[#3f55ff]"
+                : "border-[#d2d2d2]"
+            } placeholder:text-[#d2d2d2] placeholder:font-medium bg-white`}
+          />
             {/* 타이머 표시 */}
             {timeLeft > 0 && (
               <div className="absolute right-5 top-1/2 -translate-y-1/2">
