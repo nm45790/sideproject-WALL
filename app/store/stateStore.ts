@@ -10,12 +10,40 @@ interface StateStore {
 
 export const useStateStore = create<StateStore>()(
   persist(
-    (set, get) => ({
-      selectedDateString: new Date().toISOString(),
-      updateSelectedDate: (date: Date) =>
-        set({ selectedDateString: date.toISOString() }),
-      getSelectedDate: () => new Date(get().selectedDateString),
-    }),
+    (set, get) => {
+      // 초기값: persist가 저장된 값을 복원하거나, 없으면 클라이언트에서만 오늘 날짜로 설정
+      const getInitialDate = () => {
+        if (typeof window === "undefined") {
+          // 서버 사이드에서는 빈 문자열 반환 (persist가 복원한 값 사용)
+          return "";
+        }
+        // 클라이언트에서만 오늘 날짜로 초기화 (persist에 저장된 값이 없을 때만 사용됨)
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        return today.toISOString();
+      };
+
+      return {
+        selectedDateString: getInitialDate(),
+        updateSelectedDate: (date: Date) => {
+          const dateCopy = new Date(date);
+          dateCopy.setHours(0, 0, 0, 0);
+          set({ selectedDateString: dateCopy.toISOString() });
+        },
+        getSelectedDate: () => {
+          const stored = get().selectedDateString;
+          if (!stored) {
+            // 저장된 값이 없으면 오늘 날짜 반환
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            return today;
+          }
+          const date = new Date(stored);
+          date.setHours(0, 0, 0, 0);
+          return date;
+        },
+      };
+    },
     {
       name: "academy-state-storage",
     },

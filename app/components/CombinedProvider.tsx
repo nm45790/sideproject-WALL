@@ -23,6 +23,7 @@ interface UserInfo {
   role: string;
   academyId: number | null;
   academyAdmin: boolean;
+  academyName: string;
 }
 
 // UserContext 생성

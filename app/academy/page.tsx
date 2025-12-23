@@ -14,9 +14,29 @@ export default function Academy() {
   const userInfo = useAuth();
   const router = useRouter();
   const { getSelectedDate, updateSelectedDate } = useStateStore();
-  const [selectedDate, setSelectedDate] = useState(getSelectedDate());
+  // 하이드레이션 문제 해결: 초기값은 null로 설정하고 클라이언트에서만 초기화
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const [totalDogs, setTotalDogs] = useState(0);
+
+  // 페이지 진입 시 클라이언트에서만 날짜 초기화 (저장된 값이 있으면 사용, 없으면 오늘 날짜)
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      // 스토어에서 저장된 날짜 가져오기
+      const storedDate = getSelectedDate();
+
+      // 저장된 날짜가 있으면 그 값을 사용
+      if (storedDate) {
+        setSelectedDate(storedDate);
+      } else {
+        // 저장된 값이 없으면 오늘 날짜로 초기화
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        updateSelectedDate(today);
+        setSelectedDate(today);
+      }
+    }
+  }, [getSelectedDate, updateSelectedDate]);
 
   // 일정 데이터 조회
   const fetchScheduleData = async (date: Date) => {
@@ -43,7 +63,9 @@ export default function Academy() {
 
   // 날짜가 변경될 때마다 데이터 조회
   useEffect(() => {
-    fetchScheduleData(selectedDate);
+    if (selectedDate) {
+      fetchScheduleData(selectedDate);
+    }
   }, [selectedDate, userInfo?.academyId]);
 
   const handleDateSelect = (date: Date) => {
@@ -63,12 +85,15 @@ export default function Academy() {
 
   // status 페이지 URL 생성 (날짜 쿼리스트링 포함)
   const statusUrl = useMemo(() => {
+    if (!selectedDate) return "/academy/status";
     const yy = selectedDate.getFullYear().toString().substring(2);
     const mm = (selectedDate.getMonth() + 1).toString().padStart(2, "0");
     const dd = selectedDate.getDate().toString().padStart(2, "0");
     const dateStr = `${yy}${mm}${dd}`;
     return `/academy/status?date=${dateStr}`;
   }, [selectedDate]);
+
+  console.log(userInfo);
 
   return (
     <>
@@ -84,7 +109,7 @@ export default function Academy() {
               <div className="flex items-center gap-[4px] mt-[5px]">
                 <div className="bg-[#3f59ff] rounded-[7px] px-[8px] py-[5px]">
                   <p className="font-bold text-white text-[20px] leading-[24px]">
-                    {userInfo?.name || "보호자"}
+                    {userInfo?.academyName || "보호자"}
                   </p>
                 </div>
                 <p className="font-bold text-gray-900 text-[20px] leading-[24px]">
@@ -113,7 +138,7 @@ export default function Academy() {
                 </svg>
               </div>
               <p className="font-semibold text-[#858585] text-[14px] leading-[17px]">
-                {formatDate(selectedDate)}
+                {selectedDate ? formatDate(selectedDate) : ""}
               </p>
             </button>
 
@@ -142,11 +167,13 @@ export default function Academy() {
                   </p>
                   <div
                     className={`rounded-[7px] px-[10px] py-[5px] flex items-center justify-center ${
-                      isToday(selectedDate) ? "bg-[#f9f0fb]" : "bg-transparent"
+                      selectedDate && isToday(selectedDate)
+                        ? "bg-[#f9f0fb]"
+                        : "bg-transparent"
                     }`}
                     style={{ minHeight: 28 }}
                   >
-                    {isToday(selectedDate) && (
+                    {selectedDate && isToday(selectedDate) && (
                       <p className="font-bold text-[#a052ff] text-[12px] leading-[normal]">
                         오늘
                       </p>
@@ -259,12 +286,14 @@ export default function Academy() {
       </div>
 
       {/* 날짜 선택 모달 */}
-      <DatePickerModal
-        isOpen={isDatePickerOpen}
-        onClose={() => setIsDatePickerOpen(false)}
-        selectedDate={selectedDate}
-        onDateSelect={handleDateSelect}
-      />
+      {selectedDate && (
+        <DatePickerModal
+          isOpen={isDatePickerOpen}
+          onClose={() => setIsDatePickerOpen(false)}
+          selectedDate={selectedDate}
+          onDateSelect={handleDateSelect}
+        />
+      )}
     </>
   );
 }
