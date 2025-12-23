@@ -114,7 +114,7 @@ export default function AcademySchedulePage() {
 
       {/* 제목 영역 */}
       <div className="mb-[8px]">
-        <h2 className="text-[25px] font-bold text-[#363e4a] leading-[30px] mb-[8px]">
+        <h2 className="text-[25px] font-bold text-gray-900 leading-[30px] mb-[8px]">
           운영 정보는 어떻게 되나요?
         </h2>
         <p className="text-[16px] font-medium text-[#858585] leading-[20px]">
@@ -139,7 +139,7 @@ export default function AcademySchedulePage() {
               <div className="bg-white rounded-[10px] shadow-[0px_1px_3px_0px_rgba(0,0,0,0.1)] p-5">
                 {/* 영업일 토글 */}
                 <div className="flex items-center justify-between mb-[14px]">
-                  <span className="text-[16px] font-bold text-[#363e4a]">
+                  <span className="text-[16px] font-bold text-gray-900">
                     영업일
                   </span>
                   <button

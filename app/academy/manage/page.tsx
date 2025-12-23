@@ -129,17 +129,17 @@ const AcademyManagePage = () => {
                     />
                   </svg>
                 </div>
-                <p className="font-bold text-[#363e4a] text-[20px] leading-[normal]">
+                <p className="font-bold text-gray-900 text-[20px] leading-[normal]">
                   아이들 관리
                 </p>
               </div>
 
               {/* 오른쪽: 원생 수 */}
               <div className="flex items-end gap-[4px]">
-                <p className="font-bold text-[#363e4a] text-[30px] leading-[30px]">
+                <p className="font-bold text-gray-900 text-[30px] leading-[30px]">
                   {enrollments.length}
                 </p>
-                <p className="font-bold text-[#363e4a] text-[20px] leading-[20px] pb-[2px]">
+                <p className="font-bold text-gray-900 text-[20px] leading-[20px] pb-[2px]">
                   마리
                 </p>
               </div>
@@ -161,7 +161,7 @@ const AcademyManagePage = () => {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="이름을 입력해주세요"
-                className="w-full h-[59px] border border-[#d2d2d2] rounded-[7px] px-[20px] text-[16px] font-medium text-[#363e4a] placeholder:text-[#b4b4b4] focus:outline-none focus:border-[#3f55ff]"
+                className="w-full h-[59px] border border-[#d2d2d2] rounded-[7px] px-[20px] text-[16px] font-medium text-gray-900 placeholder:text-[#b4b4b4] focus:outline-none focus:border-[#3f55ff]"
               />
               <svg
                 className="absolute right-[20px] top-[50%] translate-y-[-50%] pointer-events-none"
@@ -236,7 +236,7 @@ const AcademyManagePage = () => {
                 {/* 강아지 정보 */}
                 <div className="flex flex-col gap-[4px]">
                   <div className="flex items-center gap-[4px]">
-                    <p className="font-bold text-[#363e4a] text-[18px] leading-[normal]">
+                    <p className="font-bold text-gray-900 text-[18px] leading-[normal]">
                       {enrollment.petName}
                     </p>
                     {/* 성별 아이콘 */}

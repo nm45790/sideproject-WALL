@@ -114,7 +114,7 @@ export default function ParentDetailsPage() {
 
       {/* 타이틀 영역 */}
       <div className="pt-[32px] pb-[28px]">
-        <h2 className="text-[25px] font-bold text-[#363e4a] leading-[30px] mb-2">
+        <h2 className="text-[25px] font-bold text-gray-900 leading-[30px] mb-2">
           조금 더 알려주세요!
         </h2>
         <p className="text-[16px] text-[#858585]">
@@ -127,7 +127,7 @@ export default function ParentDetailsPage() {
         {/* 견종 선택 */}
         <div className="mb-[24px]">
           <div className="mb-[8px]">
-            <span className="text-[16px] font-medium text-[#363e4a]">견종</span>
+            <span className="text-[16px] font-medium text-gray-900">견종</span>
             <span className="text-[16px] font-medium text-[#ff2407] ml-1">
               *
             </span>
@@ -136,7 +136,7 @@ export default function ParentDetailsPage() {
             onClick={() => setShowBreedModal(true)}
             className="w-full h-[59px] border border-[#d2d2d2] rounded-[7px] px-5 text-[16px] font-medium outline-none transition-colors text-left"
           >
-            <span className={breed ? "text-[#363e4a]" : "text-[#b4b4b4]"}>
+            <span className={breed ? "text-gray-900" : "text-[#b4b4b4]"}>
               {breed || "견종을 선택해주세요"}
             </span>
           </button>
@@ -145,7 +145,7 @@ export default function ParentDetailsPage() {
         {/* 생일 선택 */}
         <div className="mb-[25px]">
           <div className="mb-[8px]">
-            <span className="text-[16px] font-medium text-[#363e4a]">생일</span>
+            <span className="text-[16px] font-medium text-gray-900">생일</span>
             <span className="text-[16px] font-medium text-[#ff2407] ml-1">
               *
             </span>
@@ -154,7 +154,7 @@ export default function ParentDetailsPage() {
             onClick={() => setShowBirthdayModal(true)}
             className="w-full h-[59px] border border-[#d2d2d2] rounded-[7px] px-5 text-[16px] font-medium outline-none transition-colors text-left"
           >
-            <span className={birthday ? "text-[#363e4a]" : "text-[#b4b4b4]"}>
+            <span className={birthday ? "text-gray-900" : "text-[#b4b4b4]"}>
               {birthday
                 ? formatBirthdayDisplay(birthday)
                 : "생일을 선택해주세요"}

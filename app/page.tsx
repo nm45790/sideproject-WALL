@@ -146,7 +146,7 @@ export default function Home() {
             <div className="pt-[108px] flex-1">
               {/* 메인 타이틀 */}
               <div className="relative">
-                <h1 className="font-bold leading-normal text-[#363e4a] text-[20px]">
+                <h1 className="font-bold leading-normal text-gray-900 text-[20px]">
                   <span className="relative">
                     반려견 케어스페이스
                     {/* 노란색 하이라이트 */}
@@ -181,9 +181,9 @@ export default function Home() {
                   className="relative cursor-pointer"
                   onClick={() => router.push("/signup/terms")}
                 >
-                  <span className="font-semibold text-[#363e4a] text-[16px] hover:text-[#2a3238] transition-colors relative">
+                  <span className="font-semibold text-gray-900 text-[16px] hover:text-[#2a3238] transition-colors relative">
                     왈 아이디로 회원가입
-                    <div className="absolute border-[#363e4a] border-[0px_0px_1px] border-solid bottom-[-0.5px] left-0 right-0" />
+                    <div className="absolute border-gray-900 border-[0px_0px_1px] border-solid bottom-[-0.5px] left-0 right-0" />
                   </span>
                 </button>
               </div>

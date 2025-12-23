@@ -116,7 +116,7 @@ export default function DatePickerModal({
 
               <button
                 onClick={() => setIsYearMode(true)}
-                className="font-bold text-[#363e4a] text-[25px] leading-normal min-w-[180px] text-center hover:text-[#3f55ff] transition-colors"
+                className="font-bold text-gray-900 text-[25px] leading-normal min-w-[180px] text-center hover:text-[#3f55ff] transition-colors"
               >
                 {year}년 {String(month + 1).padStart(2, "0")}월
               </button>
@@ -139,7 +139,7 @@ export default function DatePickerModal({
           ) : (
             <button
               onClick={() => setIsYearMode(false)}
-              className="font-bold text-[#363e4a] text-[25px] leading-normal min-w-[180px] text-center hover:text-[#3f55ff] transition-colors"
+              className="font-bold text-gray-900 text-[25px] leading-normal min-w-[180px] text-center hover:text-[#3f55ff] transition-colors"
             >
               년도 선택
             </button>
@@ -185,7 +185,7 @@ export default function DatePickerModal({
                     >
                       <p
                         className={`font-bold text-[18px] leading-normal ${
-                          isSelected ? "text-white" : "text-[#363e4a]"
+                          isSelected ? "text-white" : "text-gray-900"
                         }`}
                       >
                         {date.getDate()}
@@ -212,7 +212,7 @@ export default function DatePickerModal({
                 >
                   <p
                     className={`font-bold text-[18px] leading-normal ${
-                      y === year ? "text-white" : "text-[#363e4a]"
+                      y === year ? "text-white" : "text-gray-900"
                     }`}
                   >
                     {y}

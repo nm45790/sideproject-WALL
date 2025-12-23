@@ -37,7 +37,7 @@ export default function AcademyCompletePage() {
       {/* 완료 메시지 영역 */}
       <div className="flex-1 flex flex-col items-center justify-center px-5">
         {/* 제목 */}
-        <h1 className="text-[25px] font-bold text-[#363e4a] text-center mb-[45px]">
+        <h1 className="text-[25px] font-bold text-gray-900 text-center mb-[45px]">
           유치원 등록 완료
         </h1>
 

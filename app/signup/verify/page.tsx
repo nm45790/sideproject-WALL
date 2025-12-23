@@ -3,10 +3,10 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import MainContainer from "../../components/MainContainer";
-import Icons from "../../components/Icons";
 import { useSignupStore } from "../../store/signupStore";
 import useDebouncedApi from "../../utils/debouncedApi";
 import { formatTime } from "@/app/utils/format";
+import PageHeader from "@/app/components/PageHeader";
 
 export default function VerifyPage() {
   const router = useRouter();
@@ -133,38 +133,24 @@ export default function VerifyPage() {
   return (
     <MainContainer>
       {/* 헤더 영역 - 뒤로가기 + 제목 */}
-      <div className="flex items-center pt-[45px] pb-[20px]">
-        <button
-          onClick={handleGoBack}
-          className="p-[18px] w-[57px] h-[57px] flex items-center justify-center -ml-[18px]"
-        >
-          <Icons.Prev className="w-[26px] h-[22px]" />
-        </button>
-        <h1 className="text-[25px] font-bold text-[#363e4a] leading-[30px] ml-4">
-          회원가입
-        </h1>
-      </div>
+      <PageHeader title="회원가입" variant="back" onBack={handleGoBack} />
 
       {/* 입력 필드 영역 */}
-      <div className="flex-1 flex flex-col pt-[46px]">
+      <div className="flex-1 flex flex-col pt-11">
         {/* 전화번호 표시 */}
-        <div className="mb-[24px]">
-          <div className="w-full h-[59px] rounded-[7px] px-5 flex items-center justify-center">
-            <span className="text-[16px] font-medium text-[#363e4a]">
+        <div>
+          <div className="w-full px-5 flex items-center justify-center">
+            <span className="text-[18px] font-medium text-gray-900">
               {signupData.memberPhone}
             </span>
           </div>
         </div>
 
         {/* 인증번호 입력 */}
-        <div className="mb-[24px]">
+        <div className="pt-12 text-base">
           <div className="mb-[8px]">
-            <span className="text-[14px] font-medium text-[#363e4a]">
-              인증번호
-            </span>
-            <span className="text-[14px] font-medium text-[#ff3b30] ml-1">
-              *
-            </span>
+            <span className="font-medium text-gray-900">인증번호</span>
+            <span className="font-medium text-[#ff3b30]">*</span>
           </div>
           <div className="relative">
             <input
@@ -192,7 +178,7 @@ export default function VerifyPage() {
           </div>
 
           {/* 재발송 텍스트 버튼 */}
-          <div className="mt-3 text-center">
+          <div className="mt-9 text-center">
             <button
               onClick={handleSendCode}
               disabled={isLoading}
@@ -208,14 +194,13 @@ export default function VerifyPage() {
         </div>
 
         {/* 에러/성공 메시지 */}
-        {error && (
-          <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
-            <p className="text-red-600 text-sm font-medium">{error}</p>
-          </div>
-        )}
-        {success && (
-          <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-lg">
-            <p className="text-green-600 text-sm font-medium">{success}</p>
+        {(error || success) && (
+          <div className="p-3 text-center">
+            <p
+              className={`text-sm font-medium ${error ? "text-red-600" : "text-green-600"}`}
+            >
+              {error || success}
+            </p>
           </div>
         )}
       </div>

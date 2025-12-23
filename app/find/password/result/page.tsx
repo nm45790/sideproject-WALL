@@ -99,7 +99,7 @@ export default function FindPasswordResultPage() {
         >
           <Icons.Prev className="w-[26px] h-[22px]" />
         </button>
-        <h1 className="absolute top-[64px] text-[18px] font-bold text-[#363e4a] leading-[normal]">
+        <h1 className="absolute top-[64px] text-[18px] font-bold text-gray-900 leading-[normal]">
           비밀번호 찾기
         </h1>
       </div>
@@ -109,7 +109,7 @@ export default function FindPasswordResultPage() {
         {/* 새 비밀번호 입력 */}
         <div className="mb-[25px]">
           <div className="mb-[8px]">
-            <span className="text-[16px] font-medium text-[#363e4a]">
+            <span className="text-[16px] font-medium text-gray-900">
               새 비밀번호 등록
             </span>
           </div>
@@ -144,7 +144,7 @@ export default function FindPasswordResultPage() {
         {/* 비밀번호 확인 입력 */}
         <div className="mb-[24px]">
           <div className="mb-[8px]">
-            <span className="text-[16px] font-medium text-[#363e4a]">
+            <span className="text-[16px] font-medium text-gray-900">
               새 비밀번호 재입력
             </span>
           </div>

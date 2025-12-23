@@ -225,7 +225,7 @@ export default function ParentUpdatePage() {
         {/* 제목 및 삭제 버튼 */}
         <div className="px-[20px] pb-[20px]">
           <div className="flex items-center justify-between">
-            <h1 className="text-[20px] font-bold text-[#363e4a]">
+            <h1 className="text-[20px] font-bold text-gray-900">
               반려동물 정보 수정
             </h1>
             <button
@@ -298,7 +298,7 @@ export default function ParentUpdatePage() {
 
           {/* 이름 */}
           <div className="mb-[20px]">
-            <p className="text-[18px] font-semibold text-[#363e4a] mb-[11px]">
+            <p className="text-[18px] font-semibold text-gray-900 mb-[11px]">
               이름
             </p>
             <input
@@ -317,7 +317,7 @@ export default function ParentUpdatePage() {
 
           {/* 성별 (수정 불가) */}
           <div className="mb-[20px]">
-            <p className="text-[18px] font-semibold text-[#363e4a] mb-[11px]">
+            <p className="text-[18px] font-semibold text-gray-900 mb-[11px]">
               성별
             </p>
             <div className="flex gap-[9px]">
@@ -352,7 +352,7 @@ export default function ParentUpdatePage() {
 
           {/* 견종 (수정 불가) */}
           <div className="mb-[20px]">
-            <p className="text-[18px] font-semibold text-[#363e4a] mb-[11px]">
+            <p className="text-[18px] font-semibold text-gray-900 mb-[11px]">
               견종
             </p>
             <div className="w-full bg-white rounded-[10px] shadow-[0px_1px_3px_0px_rgba(0,0,0,0.1)] h-[57px] px-[20px] flex items-center opacity-60 cursor-not-allowed">
@@ -364,7 +364,7 @@ export default function ParentUpdatePage() {
 
           {/* 생일 */}
           <div className="mb-[20px]">
-            <p className="text-[18px] font-semibold text-[#363e4a] mb-[11px]">
+            <p className="text-[18px] font-semibold text-gray-900 mb-[11px]">
               생일
             </p>
             <button

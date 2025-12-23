@@ -181,7 +181,7 @@ export default function DateWheelPicker({
       >
         {/* 상단 타이틀 */}
         <div className="px-[20px] pt-[39px] pb-[30px]">
-          <h2 className="text-[20px] font-bold text-[#363e4a]">{title}</h2>
+          <h2 className="text-[20px] font-bold text-gray-900">{title}</h2>
         </div>
 
         {/* 휠 피커 영역 */}
@@ -281,7 +281,7 @@ export default function DateWheelPicker({
                       <span
                         className={`text-[25px] font-bold transition-colors ${
                           idx === centerYearIndex
-                            ? "text-[#363e4a]"
+                            ? "text-gray-900"
                             : "text-[#d0cfd0]"
                         }`}
                       >
@@ -290,12 +290,12 @@ export default function DateWheelPicker({
                       <span
                         className={`text-[16px] font-medium transition-colors ml-[3px] ${
                           idx === centerYearIndex
-                            ? "text-[#363e4a]"
+                            ? "text-gray-900"
                             : "text-[#d0cfd0]"
                         }`}
                       >
-                          년
-                        </span>
+                        년
+                      </span>
                     </div>
                   ))}
                 </div>
@@ -352,7 +352,7 @@ export default function DateWheelPicker({
                       <span
                         className={`text-[25px] font-bold transition-colors ${
                           idx === centerMonthIndex
-                            ? "text-[#363e4a]"
+                            ? "text-gray-900"
                             : "text-[#d0cfd0]"
                         }`}
                       >
@@ -361,7 +361,7 @@ export default function DateWheelPicker({
                       <span
                         className={`text-[16px] font-medium transition-colors ml-[3px] ${
                           idx === centerMonthIndex
-                            ? "text-[#363e4a]"
+                            ? "text-gray-900"
                             : "text-[#d0cfd0]"
                         }`}
                       >
@@ -417,7 +417,7 @@ export default function DateWheelPicker({
                       <span
                         className={`text-[25px] font-bold transition-colors ${
                           idx === centerDayIndex
-                            ? "text-[#363e4a]"
+                            ? "text-gray-900"
                             : "text-[#d0cfd0]"
                         }`}
                       >
@@ -426,7 +426,7 @@ export default function DateWheelPicker({
                       <span
                         className={`text-[16px] font-medium transition-colors ml-[3px] ${
                           idx === centerDayIndex
-                            ? "text-[#363e4a]"
+                            ? "text-gray-900"
                             : "text-[#d0cfd0]"
                         }`}
                       >

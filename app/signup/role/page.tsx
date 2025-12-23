@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import MainContainer from "../../components/MainContainer";
-import Icons from "../../components/Icons";
+import PageHeader from "../../components/PageHeader";
 import { useSignupStore } from "../../store/signupStore";
 import { authService } from "../../utils/auth";
 import { api } from "../../utils/api";
@@ -29,10 +29,6 @@ export default function RolePage() {
   //     router.push("/");
   //   }
   // }, [router, signupData.termsSelectOption, userInfo]);
-
-  const handleGoBack = () => {
-    router.back();
-  };
 
   const handleSelect = async (role: "PARENT" | "ACADEMY") => {
     if (isSubmitting) return;
@@ -66,18 +62,11 @@ export default function RolePage() {
   return (
     <MainContainer>
       {/* 헤더 */}
-      <div className="flex items-start pt-[45px] pb-[20px]">
-        <button
-          onClick={handleGoBack}
-          className="p-[18px] w-[57px] h-[57px] flex items-center justify-center -ml-[18px]"
-        >
-          <Icons.Prev className="w-[26px] h-[22px]" />
-        </button>
-      </div>
+      <PageHeader />
 
       {/* 타이틀 */}
       <div className="pt-[32px] pb-[28px]">
-        <h1 className="text-[25px] font-bold text-[#363e4a] leading-[30px] mb-2">
+        <h1 className="text-[25px] font-bold text-gray-900 leading-[30px] mb-2">
           당신은 어떤 사용자이신가요?
         </h1>
         <p className="text-[16px] text-[#858585]">

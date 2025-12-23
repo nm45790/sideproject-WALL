@@ -120,7 +120,7 @@ export default function PetCard({ pet }: PetCardProps) {
       {/* 반려동물 이름과 견종 */}
       <div className="px-[20px] mt-[19px] mb-[11px]">
         <div className="flex items-center gap-[6px] mb-[6px]">
-          <p className="text-[18px] font-bold text-[#363e4a]">{pet.petName}</p>
+          <p className="text-[18px] font-bold text-gray-900">{pet.petName}</p>
           <span className="text-[18px]">
             {pet.petGender === "MALE" ? "♂" : "♀"}
           </span>
@@ -172,7 +172,7 @@ export default function PetCard({ pet }: PetCardProps) {
           <span className="text-[16px] font-bold absolute -top-[8px] left-[8px]">
             🐶
           </span>
-          <p className="text-[14px] font-semibold text-[#363e4a] pl-[20px]">
+          <p className="text-[14px] font-semibold text-gray-900 pl-[20px]">
             우리 아이랑 함께한 지 {timeWithPet}
           </p>
         </div>

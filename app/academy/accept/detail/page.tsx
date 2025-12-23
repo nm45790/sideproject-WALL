@@ -193,7 +193,7 @@ export default function AcceptDetailPage() {
                 <circle cx="5" cy="5" r="2" fill="white" />
               </svg>
             </div>
-            <p className="font-semibold text-[#363e4a] text-[18px] leading-[normal]">
+            <p className="font-semibold text-gray-900 text-[18px] leading-[normal]">
               세부 정보
             </p>
           </div>
@@ -225,7 +225,7 @@ export default function AcceptDetailPage() {
             {/* 강아지 정보 */}
             <div className="flex-1">
               <div className="flex items-center gap-[6px] mb-[4px]">
-                <p className="font-bold text-[#363e4a] text-[18px] leading-[normal]">
+                <p className="font-bold text-gray-900 text-[18px] leading-[normal]">
                   {petDetail.petName}
                 </p>
                 <span className="text-[16px]">
@@ -244,7 +244,7 @@ export default function AcceptDetailPage() {
 
         {/* 보호자 정보 섹션 */}
         <div className="px-[20px] pt-[31px]">
-          <p className="font-semibold text-[#363e4a] text-[18px] leading-[normal] mb-[31px]">
+          <p className="font-semibold text-gray-900 text-[18px] leading-[normal] mb-[31px]">
             보호자 정보
           </p>
 
@@ -254,7 +254,7 @@ export default function AcceptDetailPage() {
                 <p className="font-medium text-[#8e8e8e] text-[14px] leading-[normal]">
                   이름
                 </p>
-                <p className="font-semibold text-[#363e4a] text-[14px] leading-[normal]">
+                <p className="font-semibold text-gray-900 text-[14px] leading-[normal]">
                   {petDetail.ownerName || "-"}
                 </p>
               </div>
@@ -262,7 +262,7 @@ export default function AcceptDetailPage() {
                 <p className="font-medium text-[#8e8e8e] text-[14px] leading-[normal]">
                   휴대폰 번호
                 </p>
-                <p className="font-semibold text-[#363e4a] text-[14px] leading-[normal]">
+                <p className="font-semibold text-gray-900 text-[14px] leading-[normal]">
                   {petDetail.ownerPhone || "-"}
                 </p>
               </div>

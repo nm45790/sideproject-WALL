@@ -78,10 +78,10 @@ export default function AcademyCallPage() {
       </div>
 
       {/* 입력 필드 영역 */}
-      <div className="flex-1 flex flex-col pt-[46px]">
+      <div className="flex-1 flex flex-col pt-[38px]">
         {/* 제목 */}
         <div className="mb-[8px]">
-          <h2 className="text-[25px] font-bold text-[#363e4a] leading-[30px] mb-[8px]">
+          <h2 className="text-[25px] font-bold text-gray-900 leading-[30px] mb-[8px]">
             대표번호를 입력해 주세요!
           </h2>
           <p className="text-[16px] font-medium text-[#858585] leading-[20px]">
@@ -92,7 +92,7 @@ export default function AcademyCallPage() {
         {/* 대표번호 입력 */}
         <div className="mb-[25px] mt-[53px]">
           <div className="mb-[8px]">
-            <span className="text-[16px] font-medium text-[#363e4a]">
+            <span className="text-[16px] font-medium text-gray-900">
               대표번호
             </span>
             <span className="text-[16px] font-medium text-[#ff2407] ml-1">

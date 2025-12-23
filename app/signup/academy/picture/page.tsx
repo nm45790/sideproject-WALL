@@ -131,10 +131,10 @@ export default function AcademyPicturePage() {
       </div>
 
       {/* 입력 필드 영역 */}
-      <div className="flex-1 flex flex-col pt-[46px]">
+      <div className="flex-1 flex flex-col pt-[38px]">
         {/* 제목 */}
         <div className="mb-[8px]">
-          <h2 className="text-[25px] font-bold text-[#363e4a] leading-[30px] mb-[8px]">
+          <h2 className="text-[25px] font-bold text-gray-900 leading-[30px] mb-[8px]">
             유치원의 사진을 등록해주세요!
           </h2>
           <p className="text-[16px] font-medium text-[#858585] leading-[20px]">

@@ -183,7 +183,7 @@ export default function AcademyOnboardingPage() {
             {/* 텍스트 영역 */}
             <div className="px-7 pb-8 text-center">
               <h1
-                className="font-bold text-[#363e4a] text-[25px] leading-[30px] mb-4"
+                className="font-bold text-gray-900 text-[25px] leading-[30px] mb-4"
                 style={{ whiteSpace: "pre-line" }}
               >
                 {slide.title}

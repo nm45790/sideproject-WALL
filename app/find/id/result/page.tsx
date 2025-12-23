@@ -42,7 +42,7 @@ export default function FindIdResultPage() {
         >
           <Icons.Prev className="w-[26px] h-[22px]" />
         </button>
-        <h1 className="absolute top-[64px] text-[18px] font-bold text-[#363e4a] leading-[normal]">
+        <h1 className="absolute top-[64px] text-[18px] font-bold text-gray-900 leading-[normal]">
           아이디 찾기
         </h1>
       </div>
@@ -51,7 +51,7 @@ export default function FindIdResultPage() {
       <div className="flex-1 flex flex-col pt-[48px]">
         {/* 성공 메시지 */}
         <div className="mb-[6px]">
-          <p className="text-[18px] font-bold text-[#363e4a] leading-[normal]">
+          <p className="text-[18px] font-bold text-gray-900 leading-[normal]">
             고객님의 왈 계정을 찾았습니다.
           </p>
         </div>
@@ -70,7 +70,7 @@ export default function FindIdResultPage() {
             </div>
             {/* 아이디 정보 */}
             <div className="flex flex-col gap-[3px]">
-              <span className="text-[16px] font-medium text-[#363e4a] leading-[normal]">
+              <span className="text-[16px] font-medium text-gray-900 leading-[normal]">
                 {memberId}
               </span>
               <span className="text-[13px] font-medium text-[#b4b4b4] leading-[normal]">

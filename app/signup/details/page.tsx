@@ -1,11 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import MainContainer from "../../components/MainContainer";
-import Icons from "../../components/Icons";
+import PageHeader from "../../components/PageHeader";
 import { useSignupStore } from "../../store/signupStore";
 import useDebouncedApi from "../../utils/debouncedApi";
+import { useValidate } from "../_hook/useValidate";
 
 export default function DetailsPage() {
   const router = useRouter();
@@ -27,7 +28,7 @@ export default function DetailsPage() {
     ];
 
     if (!requiredTerms.every(Boolean)) {
-      alert("잘못된 접근입니다.");
+      alert("먼저 약관 동의가 필요해요!");
       router.push("/signup/terms");
     }
   }, [router, signupData.termsSelectOption]);
@@ -43,6 +44,37 @@ export default function DetailsPage() {
 
   // 디바운스 API 훅 사용
   const api = useDebouncedApi();
+
+  // 유효성 검사 훅
+  const { fields, validate, setError } = useValidate({
+    name: { type: "name" },
+    phone: { type: "phone" },
+    email: { type: "email" },
+  });
+
+  // 디바운스 타이머 refs
+  const nameTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const phoneTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const emailTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  // 디바운스된 검증 함수
+  const debouncedValidate = useCallback(
+    (
+      field: "name" | "phone" | "email",
+      value: string,
+      timerRef: React.MutableRefObject<NodeJS.Timeout | null>,
+    ) => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+      }
+      timerRef.current = setTimeout(() => {
+        console.log(`[Validate] ${field}:`, value);
+        const result = validate(field, value);
+        console.log(`[Validate Result]`, result);
+      }, 500);
+    },
+    [validate],
+  );
 
   // localStorage에서 저장된 값으로 초기값 설정
   useEffect(() => {
@@ -85,6 +117,8 @@ export default function DetailsPage() {
     const filteredValue = value.replace(/[^가-힣ㄱ-ㅎㅏ-ㅣa-zA-Z\s]/g, "");
     setName(filteredValue);
     updateMemberName(filteredValue);
+
+    debouncedValidate("name", filteredValue, nameTimerRef); // 800ms 디바운스 검증
   };
 
   const formatPhoneNumber = (value: string) => {
@@ -105,6 +139,8 @@ export default function DetailsPage() {
     const formatted = formatPhoneNumber(value);
     setPhone(formatted);
     updateMemberPhone(formatted);
+
+    debouncedValidate("phone", formatted, phoneTimerRef); // 800ms 디바운스 검증
   };
 
   const handleEmailChange = (value: string) => {
@@ -112,27 +148,67 @@ export default function DetailsPage() {
     // 직접 입력인 경우에만 전체 이메일로 저장 (이미 @ 포함된 경우)
     if (emailDomain === "직접입력") {
       updateMemberEmail(value);
+
+      debouncedValidate("email", value, emailTimerRef); // 800ms 디바운스 검증
     } else if (emailDomain && emailDomain !== "") {
       // 선택된 도메인이 있으면 조합해서 저장
       const emailId = value;
-      updateMemberEmail(`${emailId}@${emailDomain}`);
+      const fullEmail = `${emailId}@${emailDomain}`;
+      updateMemberEmail(fullEmail);
+
+      debouncedValidate("email", fullEmail, emailTimerRef); // 800ms 디바운스 검증
+    } else {
+      // 도메인 미선택 시에도 검증 (에러 표시용)
+      updateMemberEmail(value);
+      debouncedValidate("email", value, emailTimerRef);
     }
   };
 
   const handleEmailDomainChange = (value: string) => {
     setEmailDomain(value);
+
+    // 도메인 변경 시 기존 타이머 취소하고 즉시 검증
+    if (emailTimerRef.current) {
+      clearTimeout(emailTimerRef.current);
+    }
+
     if (value === "직접입력") {
-      // 직접입력 선택 시 현재 이메일 그대로 유지하고 emailDomain을 "직접입력"으로 유지
+      // 직접입력 선택 시 현재 이메일 그대로 유지
       updateMemberEmail(email);
+      validate("email", email); // 즉시 검증
     } else if (value && value !== "") {
       // 도메인 선택 시 아이디와 조합
       const emailId = email.split("@")[0] || "";
-      updateMemberEmail(`${emailId}@${value}`);
+      const fullEmail = `${emailId}@${value}`;
+      updateMemberEmail(fullEmail);
+      validate("email", fullEmail); // 즉시 검증
     }
   };
 
   const handleNext = async () => {
     console.log("handleNext");
+
+    // 디바운스 타이머 취소하고 즉시 validation
+    if (nameTimerRef.current) clearTimeout(nameTimerRef.current);
+    if (phoneTimerRef.current) clearTimeout(phoneTimerRef.current);
+    if (emailTimerRef.current) clearTimeout(emailTimerRef.current);
+
+    const nameResult = validate("name", name);
+    const phoneResult = validate("phone", phone);
+    const fullEmail =
+      emailDomain === "직접입력" ? email : `${email}@${emailDomain}`;
+    const emailResult = validate("email", fullEmail);
+
+    // validation 에러가 있으면 중단
+    if (!nameResult.isValid || !phoneResult.isValid || !emailResult.isValid) {
+      return;
+    }
+
+    // 도메인 미선택 체크
+    if (emailDomain === "") {
+      return;
+    }
+
     if (!isDetailsDataComplete()) {
       return;
     }
@@ -181,33 +257,29 @@ export default function DetailsPage() {
     }
   };
 
+  // 모든 필드가 채워져 있고 + validation 통과해야 함
+  // isDirty 상태면 isValid도 체크 (dirty인데 invalid면 비활성화)
   const isFormValid =
-    name.trim() !== "" && phone.trim() !== "" && email.trim() !== "";
+    name.trim() !== "" &&
+    phone.trim() !== "" &&
+    email.trim() !== "" &&
+    emailDomain !== "" && // 도메인 선택 필수 (직접입력 포함)
+    (!fields.name.isDirty || fields.name.isValid) &&
+    (!fields.phone.isDirty || fields.phone.isValid) &&
+    (!fields.email.isDirty || fields.email.isValid);
 
   return (
     <MainContainer>
       {/* 헤더 영역 - 뒤로가기 + 제목 */}
-      <div className="flex items-center pt-[45px] pb-[20px]">
-        <button
-          onClick={handleGoBack}
-          className="p-[18px] w-[57px] h-[57px] flex items-center justify-center -ml-[18px]"
-        >
-          <Icons.Prev className="w-[26px] h-[22px]" />
-        </button>
-        <h1 className="text-[25px] font-bold text-[#363e4a] leading-[30px] ml-4">
-          회원가입
-        </h1>
-      </div>
+      <PageHeader title="회원가입" variant="back" onBack={handleGoBack} />
 
       {/* 입력 필드 영역 */}
-      <div className="flex-1 flex flex-col pt-[46px]">
+      <div className="flex-1 flex flex-col pt-[38px] text-base">
         {/* 이름 입력 */}
         <div className="mb-[24px]">
           <div className="mb-[8px]">
-            <span className="text-[14px] font-medium text-[#363e4a]">이름</span>
-            <span className="text-[14px] font-medium text-[#ff3b30] ml-1">
-              *
-            </span>
+            <span className="font-medium text-gray-900">이름</span>
+            <span className="font-medium text-[#ff3b30]">*</span>
           </div>
           <input
             type="text"
@@ -217,20 +289,25 @@ export default function DetailsPage() {
             onBlur={() => setIsNameFocused(false)}
             placeholder="이름을 입력해주세요"
             className={`w-full h-[59px] border-[1.5px] rounded-[7px] px-5 text-[16px] font-medium outline-none transition-colors ${
-              isNameFocused || name ? "border-[#3f55ff]" : "border-[#d2d2d2]"
+              fields.name.error
+                ? "border-[#ff3b30]"
+                : isNameFocused || name
+                  ? "border-[#3f55ff]"
+                  : "border-[#d2d2d2]"
             } placeholder:text-[#d2d2d2] placeholder:font-medium`}
           />
+          {fields.name.error && (
+            <p className="mt-2 text-[14px] font-medium text-[#ff3b30]">
+              {fields.name.error}
+            </p>
+          )}
         </div>
 
         {/* 전화번호 입력 */}
         <div className="mb-[24px]">
           <div className="mb-[8px]">
-            <span className="text-[14px] font-medium text-[#363e4a]">
-              전화번호
-            </span>
-            <span className="text-[14px] font-medium text-[#ff3b30] ml-1">
-              *
-            </span>
+            <span className="font-medium text-gray-900">전화번호</span>
+            <span className="font-medium text-[#ff3b30]">*</span>
           </div>
           <input
             type="tel"
@@ -240,20 +317,25 @@ export default function DetailsPage() {
             onBlur={() => setIsPhoneFocused(false)}
             placeholder="전화번호를 입력해주세요"
             className={`w-full h-[59px] border-[1.5px] rounded-[7px] px-5 text-[16px] font-medium outline-none transition-colors ${
-              isPhoneFocused || phone ? "border-[#3f55ff]" : "border-[#d2d2d2]"
+              fields.phone.error
+                ? "border-[#ff3b30]"
+                : isPhoneFocused || phone
+                  ? "border-[#3f55ff]"
+                  : "border-[#d2d2d2]"
             } placeholder:text-[#d2d2d2] placeholder:font-medium`}
           />
+          {fields.phone.error && (
+            <p className="mt-2 text-[14px] font-medium text-[#ff3b30]">
+              {fields.phone.error}
+            </p>
+          )}
         </div>
 
         {/* 이메일 입력 */}
         <div className="mb-[25px]">
           <div className="mb-[8px]">
-            <span className="text-[14px] font-medium text-[#363e4a]">
-              이메일
-            </span>
-            <span className="text-[14px] font-medium text-[#ff3b30] ml-1">
-              *
-            </span>
+            <span className="font-medium text-gray-900">이메일</span>
+            <span className="font-medium text-[#ff3b30]">*</span>
           </div>
           <div className="flex items-center w-full max-w-full">
             <input
@@ -268,18 +350,24 @@ export default function DetailsPage() {
                   : "이메일 아이디를 입력해주세요"
               }
               className={`flex-1 min-w-0 h-[59px] border-[1.5px] rounded-l-[7px] px-5 text-[16px] font-medium outline-none transition-colors ${
-                isEmailFocused || email
-                  ? "border-[#3f55ff]"
-                  : "border-[#d2d2d2]"
+                fields.email.error ||
+                (email.trim() !== "" && emailDomain === "")
+                  ? "border-[#ff3b30]"
+                  : isEmailFocused || email
+                    ? "border-[#3f55ff]"
+                    : "border-[#d2d2d2]"
               } placeholder:text-[#d2d2d2] placeholder:font-medium`}
             />
             <select
               value={emailDomain}
               onChange={(e) => handleEmailDomainChange(e.target.value)}
               className={`w-[130px] h-[59px] border-[1.5px] border-l-0 rounded-r-[7px] px-3 text-[16px] font-medium outline-none transition-colors bg-white appearance-none cursor-pointer ${
-                isEmailFocused || email
-                  ? "border-[#3f55ff]"
-                  : "border-[#d2d2d2]"
+                fields.email.error ||
+                (email.trim() !== "" && emailDomain === "")
+                  ? "border-[#ff3b30]"
+                  : isEmailFocused || email
+                    ? "border-[#3f55ff]"
+                    : "border-[#d2d2d2]"
               }`}
               style={{
                 backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e")`,
@@ -300,6 +388,16 @@ export default function DetailsPage() {
               <option value="직접입력">직접입력</option>
             </select>
           </div>
+          {/* 도메인 미선택 에러 또는 이메일 형식 에러 */}
+          {email.trim() !== "" && emailDomain === "" ? (
+            <p className="mt-2 text-[14px] font-medium text-[#ff3b30]">
+              도메인을 선택해주세요
+            </p>
+          ) : fields.email.error ? (
+            <p className="mt-2 text-[14px] font-medium text-[#ff3b30]">
+              {fields.email.error}
+            </p>
+          ) : null}
         </div>
 
         {/* 다음 버튼 */}

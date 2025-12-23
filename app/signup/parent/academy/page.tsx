@@ -200,10 +200,10 @@ export default function ParentAcademyPage() {
       </div>
 
       {/* 입력 필드 영역 */}
-      <div className="flex-1 flex flex-col pt-[46px]">
+      <div className="flex-1 flex flex-col pt-[38px]">
         {/* 제목 */}
         <div className="mb-[39px]">
-          <h2 className="text-[25px] font-bold text-[#363e4a] leading-[30px] mb-[8px]">
+          <h2 className="text-[25px] font-bold text-gray-900 leading-[30px] mb-[8px]">
             유치원을 등록해주세요!
           </h2>
           <p className="text-[16px] font-medium text-[#858585] leading-[20px]">
@@ -219,7 +219,7 @@ export default function ParentAcademyPage() {
           >
             <span
               className={`text-[16px] font-medium ${
-                selectedAcademy ? "text-[#363e4a]" : "text-[#b4b4b4]"
+                selectedAcademy ? "text-gray-900" : "text-[#b4b4b4]"
               }`}
             >
               {selectedAcademy ? selectedAcademy.name : "유치원을 입력해주세요"}

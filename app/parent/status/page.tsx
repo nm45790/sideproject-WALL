@@ -199,7 +199,7 @@ export default function ParentStatusPage() {
             {/* 안내 문구 */}
             {!isLoading && (
               <div>
-                <p className="font-bold text-[#363e4a] leading-[normal]">
+                <p className="font-bold text-gray-900 leading-[normal]">
                   <span className="text-[30px]">{totalCount} </span>
                   <span className="text-[20px]">
                     마리 친구들이 기다리고 있어요! 🐶
@@ -262,7 +262,7 @@ export default function ParentStatusPage() {
 
                   {/* 강아지 정보 */}
                   <div className="flex-1 ml-[16px]">
-                    <p className="font-bold text-[#363e4a] text-[18px] leading-[normal] mb-[4px]">
+                    <p className="font-bold text-gray-900 text-[18px] leading-[normal] mb-[4px]">
                       {reservation.petName}
                     </p>
                     <p className="font-medium text-[#6e7783] text-[12px] leading-[normal]">

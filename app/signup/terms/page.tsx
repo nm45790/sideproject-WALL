@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import MainContainer from "../../components/MainContainer";
 import Icons from "../../components/Icons";
+import PageHeader from "../../components/PageHeader";
 import { useSignupStore } from "../../store/signupStore";
 
 type Agreement = {
@@ -20,6 +21,7 @@ export default function TermsPage() {
 
   const [showTermsModal, setShowTermsModal] = useState(false);
   const [selectedTermsId, setSelectedTermsId] = useState<string>("");
+  const isNavigatingToNext = useRef(false);
 
   // 약관 내용 정의
   const termsContent = {
@@ -115,10 +117,6 @@ export default function TermsPage() {
   // 전체 동의 상태 계산
   const allAgreed = Object.values(signupData.termsSelectOption).every(Boolean);
 
-  const handleGoBack = () => {
-    router.replace("/");
-  };
-
   const handleAllAgreeToggle = () => {
     const newAllAgreed = !allAgreed;
 
@@ -156,9 +154,24 @@ export default function TermsPage() {
 
   const allRequiredChecked = isAllRequiredTermsAgreed();
 
+  // 컴포넌트 언마운트 시 체크박스 전부 해제 (정상적인 다음 페이지 이동이 아닐 때만)
+  useEffect(() => {
+    return () => {
+      if (!isNavigatingToNext.current) {
+        updateTermsSelectOption({
+          service: false,
+          privacy: false,
+          thirdParty: false,
+          payment: false,
+          marketing: false,
+        });
+      }
+    };
+  }, [updateTermsSelectOption]);
+
   const handleNext = () => {
     if (allRequiredChecked) {
-      // 다음 단계로 이동 (예: 상세 정보 입력)
+      isNavigatingToNext.current = true;
       router.push("/signup/details");
     }
   };
@@ -166,39 +179,33 @@ export default function TermsPage() {
   return (
     <MainContainer>
       {/* Close 버튼 영역 */}
-      <div className="flex items-start pt-[45px] pb-[20px]">
-        <button
-          onClick={handleGoBack}
-          className="p-[18px] w-[57px] h-[57px] flex items-center justify-center -ml-[18px]"
-        >
-          <Icons.Close className="w-[17px] h-[17px] text-[#363e4a]" />
-        </button>
-      </div>
+      <PageHeader variant="close" onBack={() => router.replace("/")} />
 
       {/* 제목 영역 */}
-      <div className="pt-[66px] pb-[50px]">
-        <h1 className="text-[25px] font-bold text-[#363e4a] leading-[30px]">
+      <div className="pt-7">
+        <h1 className="text-2xl font-bold text-gray-900 leading-[30px]">
           회원가입
         </h1>
+        <p className="mt-3 text-[#939393] text-sm font-medium">
+          사랑하는 반려견의 하루를 간편하게 연결하세요!
+        </p>
       </div>
 
       {/* 약관 동의 영역 */}
-      <div className="flex-1 flex flex-col">
+      <div className="flex flex-col pt-16 text-[#8E8E8E] pb-5">
         {/* 전체 동의 */}
-        <div className="mb-6">
+        <div>
           <button onClick={handleAllAgreeToggle} className="flex items-center">
-            <Icons.Checkbox checked={allAgreed} className="w-5 h-5 mr-3" />
-            <span className="text-[16px] font-bold text-[#363e4a]">
-              전체 동의
-            </span>
+            <Icons.Checkbox checked={allAgreed} className="w-5 h-5 mr-2" />
+            <span className="text-[16px] font-bold">약관 전체 동의</span>
           </button>
         </div>
 
         {/* 구분선 */}
-        <div className="w-full h-[1px] bg-[#e5e5e5] mb-4"></div>
+        <div className="w-full h-[1px] bg-[#e5e5e5] my-4"></div>
 
         {/* 개별 약관들 */}
-        <div className="space-y-[19px] mb-8">
+        <div className="space-y-[19px] px-5">
           {agreements.map((agreement, index) => (
             <div
               key={agreement.id}
@@ -212,7 +219,7 @@ export default function TermsPage() {
                   checked={agreement.checked}
                   className="w-5 h-5 mr-[8px]"
                 />
-                <span className="text-[13px] font-medium text-[#363e4a] text-left">
+                <span className="text-[13px] font-medium text-left">
                   {agreement.title}
                 </span>
               </button>
@@ -227,18 +234,20 @@ export default function TermsPage() {
         </div>
 
         {/* 광고성 정보 수신 안내 */}
-        <div className="mb-8 pl-[28px]">
-          <p className="text-[13px] font-medium text-[#5a5a5a] leading-[18px]">
+        <div className="pl-12 pr-4 mt-3">
+          <p className="text-[13px] font-medium text-[#5a5a5a] leading-[16px]">
             광고성 정보 수신에 동의하시면, 이벤트 및 할인 혜택 안내를 누구보다
             빠르게 받아보실 수 있어요!
           </p>
         </div>
+      </div>
 
-        {/* 동의하고 가입하기 버튼 */}
+      {/* 동의하고 가입하기 버튼 */}
+      <div className="flex-1 flex items-end pb-5">
         <button
           onClick={handleNext}
           disabled={!allRequiredChecked}
-          className={`w-full h-[59px] rounded-[7px] flex items-center justify-center transition-colors ${
+          className={`w-full h-[59px] rounded-[7px] flex items-center justify-center transition-colors mt-auto ${
             allRequiredChecked
               ? "bg-[#3f55ff] hover:bg-[#3646e6] cursor-pointer"
               : "bg-[#f0f0f0] cursor-not-allowed"
@@ -263,11 +272,11 @@ export default function TermsPage() {
           <div className="relative bg-white rounded-t-[20px] w-full h-[90vh] animate-slide-up z-[10000] flex flex-col">
             {/* 헤더 */}
             <div className="flex items-center justify-between p-5 border-b border-[#e5e5e5]">
-              <h2 className="text-[25px] font-bold text-[#363e4a]">
+              <h2 className="text-[25px] font-bold text-gray-900">
                 서비스 이용약관 동의
               </h2>
               <button onClick={handleCloseModal} className="p-2">
-                <Icons.Close className="w-[17px] h-[17px] text-[#363e4a]" />
+                <Icons.Close className="w-[17px] h-[17px] text-gray-900" />
               </button>
             </div>
 

@@ -89,7 +89,7 @@ export default function AcceptPage() {
               </svg>
             </div>
           </div>
-          <p className="font-bold text-[#363e4a] text-[20px] leading-[normal]">
+          <p className="font-bold text-gray-900 text-[20px] leading-[normal]">
             승인 관리
           </p>
         </div>
@@ -148,7 +148,7 @@ export default function AcceptPage() {
                 {/* 강아지 정보 */}
                 <div className="flex-1">
                   <div className="flex items-center gap-[4px] mb-[4px]">
-                    <p className="font-bold text-[#363e4a] text-[18px] leading-[normal]">
+                    <p className="font-bold text-gray-900 text-[18px] leading-[normal]">
                       {enrollment.petName}
                     </p>
                     {/* 성별 아이콘 */}

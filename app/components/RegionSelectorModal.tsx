@@ -76,7 +76,7 @@ export default function RegionSelectorModal({
       >
         {/* 헤더 */}
         <div className="bg-white pt-[32px] pb-[20px] px-5 border-b border-[#f0f0f0] flex items-center justify-between flex-shrink-0">
-          <p className="text-[18px] font-bold text-[#363e4a]">지역</p>
+          <p className="text-[18px] font-bold text-gray-900">지역</p>
           <button
             onClick={onClose}
             className="w-[24px] h-[24px] flex items-center justify-center"

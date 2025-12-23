@@ -135,17 +135,17 @@ export default function FindIdVerifyPage() {
         >
           <Icons.Prev className="w-[26px] h-[22px]" />
         </button>
-        <h1 className="text-[25px] font-bold text-[#363e4a] leading-[30px] ml-4">
+        <h1 className="text-[25px] font-bold text-gray-900 leading-[30px] ml-4">
           아이디 찾기
         </h1>
       </div>
 
       {/* 입력 필드 영역 */}
-      <div className="flex-1 flex flex-col pt-[46px]">
+      <div className="flex-1 flex flex-col pt-[38px]">
         {/* 전화번호 표시 */}
         <div className="mb-[24px]">
           <div className="w-full h-[59px] rounded-[7px] px-5 flex items-center justify-center">
-            <span className="text-[16px] font-medium text-[#363e4a]">
+            <span className="text-[16px] font-medium text-gray-900">
               {formatPhoneNumberDisplay(phone)}
             </span>
           </div>
@@ -154,29 +154,25 @@ export default function FindIdVerifyPage() {
         {/* 인증번호 입력 */}
         <div className="mb-[24px]">
           <div className="mb-[8px]">
-            <span className="text-[14px] font-medium text-[#363e4a]">
-              인증번호
-            </span>
-            <span className="text-[14px] font-medium text-[#ff3b30] ml-1">
-              *
-            </span>
+            <span className="font-medium text-gray-900">인증번호</span>
+            <span className="font-medium text-[#ff3b30]">*</span>
           </div>
           <div className="relative">
-          <input
-            type="text"
-            value={verificationCode}
-            onChange={(e) => handleCodeChange(e.target.value)}
-            onFocus={() => setIsCodeFocused(true)}
-            onBlur={() => setIsCodeFocused(false)}
+            <input
+              type="text"
+              value={verificationCode}
+              onChange={(e) => handleCodeChange(e.target.value)}
+              onFocus={() => setIsCodeFocused(true)}
+              onBlur={() => setIsCodeFocused(false)}
               placeholder="인증번호를 입력해 주세요"
-            maxLength={6}
-            disabled={isLoading}
+              maxLength={6}
+              disabled={isLoading}
               className={`w-full h-[59px] border-[1.5px] rounded-[7px] px-5 pr-[80px] text-[16px] font-medium outline-none transition-colors ${
-              isCodeFocused || verificationCode
-                ? "border-[#3f55ff]"
-                : "border-[#d2d2d2]"
-            } placeholder:text-[#d2d2d2] placeholder:font-medium`}
-          />
+                isCodeFocused || verificationCode
+                  ? "border-[#3f55ff]"
+                  : "border-[#d2d2d2]"
+              } placeholder:text-[#d2d2d2] placeholder:font-medium`}
+            />
             {/* 타이머 표시 */}
             {timeLeft > 0 && (
               <div className="absolute right-5 top-1/2 -translate-y-1/2">

@@ -152,7 +152,7 @@ export default function AcademySelectorModal({
                   className={`text-[16px] font-bold ${
                     academy.id === selectedAcademyId
                       ? "text-[#3f55ff]"
-                      : "text-[#363e4a]"
+                      : "text-gray-900"
                   }`}
                 >
                   {academy.name}

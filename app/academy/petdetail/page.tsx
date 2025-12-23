@@ -140,7 +140,7 @@ const PetDetailPage = () => {
                 strokeLinejoin="round"
               />
             </svg>
-            <p className="font-bold text-[#363e4a] text-[16px] leading-[normal]">
+            <p className="font-bold text-gray-900 text-[16px] leading-[normal]">
               세부 정보
             </p>
           </div>
@@ -182,7 +182,7 @@ const PetDetailPage = () => {
               {/* 강아지 정보 */}
               <div className="flex flex-col gap-[4px]">
                 <div className="flex items-center gap-[4px]">
-                  <p className="font-bold text-[#363e4a] text-[18px] leading-[normal]">
+                  <p className="font-bold text-gray-900 text-[18px] leading-[normal]">
                     {petDetail.petName}
                   </p>
                   {/* 성별 아이콘 */}
@@ -229,7 +229,7 @@ const PetDetailPage = () => {
 
         {/* 보호자 정보 */}
         <div className="flex-1 px-[20px] pt-[26px]">
-          <p className="font-semibold text-[#363e4a] text-[18px] leading-[normal] mb-[34px]">
+          <p className="font-semibold text-gray-900 text-[18px] leading-[normal] mb-[34px]">
             보호자 정보
           </p>
 

@@ -7,6 +7,7 @@ import Icons from "../../components/Icons";
 import { useSignupStore } from "../../store/signupStore";
 import useDebouncedApi from "../../utils/debouncedApi";
 import { authService } from "../../utils/auth";
+import PageHeader from "@/app/components/PageHeader";
 
 export default function AccountPage() {
   const router = useRouter();
@@ -148,29 +149,15 @@ export default function AccountPage() {
   return (
     <MainContainer>
       {/* 헤더 영역 - 뒤로가기 + 제목 */}
-      <div className="flex items-center pt-[45px] pb-[20px]">
-        <button
-          onClick={handleGoBack}
-          className="p-[18px] w-[57px] h-[57px] flex items-center justify-center -ml-[18px]"
-        >
-          <Icons.Prev className="w-[26px] h-[22px]" />
-        </button>
-        <h1 className="text-[25px] font-bold text-[#363e4a] leading-[30px] ml-4">
-          회원가입
-        </h1>
-      </div>
+      <PageHeader title="회원가입" variant="back" onBack={handleGoBack} />
 
       {/* 입력 필드 영역 */}
-      <div className="flex-1 flex flex-col pt-[46px]">
+      <div className="flex flex-col pt-11 text-base">
         {/* 아이디 입력 */}
-        <div className="mb-[24px]">
-          <div className="mb-[8px]">
-            <span className="text-[14px] font-medium text-[#363e4a]">
-              아이디
-            </span>
-            <span className="text-[14px] font-medium text-[#ff3b30] ml-1">
-              *
-            </span>
+        <div>
+          <div className="mb-2">
+            <span className="font-medium text-gray-900">아이디</span>
+            <span className="font-medium text-[#ff3b30]">*</span>
           </div>
           <input
             type="text"
@@ -186,14 +173,10 @@ export default function AccountPage() {
         </div>
 
         {/* 비밀번호 입력 */}
-        <div className="mb-[24px]">
-          <div className="mb-[8px]">
-            <span className="text-[14px] font-medium text-[#363e4a]">
-              비밀번호
-            </span>
-            <span className="text-[14px] font-medium text-[#ff3b30] ml-1">
-              *
-            </span>
+        <div className="pt-6">
+          <div className="mb-2 text-base">
+            <span className="font-medium text-gray-900">비밀번호</span>
+            <span className="font-medium text-[#ff3b30]">*</span>
           </div>
           <input
             type="password"
@@ -211,14 +194,10 @@ export default function AccountPage() {
         </div>
 
         {/* 비밀번호 재입력 */}
-        <div className="mb-[25px]">
-          <div className="mb-[8px]">
-            <span className="text-[14px] font-medium text-[#363e4a]">
-              비밀번호 재입력
-            </span>
-            <span className="text-[14px] font-medium text-[#ff3b30] ml-1">
-              *
-            </span>
+        <div className="pt-6">
+          <div className="mb-2">
+            <span className="font-medium text-gray-900">비밀번호 재입력</span>
+            <span className="font-medium text-[#ff3b30]">*</span>
           </div>
           <input
             type="password"
@@ -226,7 +205,7 @@ export default function AccountPage() {
             onChange={(e) => handleConfirmPasswordChange(e.target.value)}
             onFocus={() => setIsConfirmPasswordFocused(true)}
             onBlur={() => setIsConfirmPasswordFocused(false)}
-            placeholder="비밀번호를 다시 입력해주세요"
+            placeholder="동일한 비밀번호를 입력해주세요"
             className={`w-full h-[59px] border-[1.5px] rounded-[7px] px-5 text-[16px] font-medium outline-none transition-colors ${
               isConfirmPasswordFocused || confirmPassword
                 ? "border-[#3f55ff]"
@@ -252,8 +231,10 @@ export default function AccountPage() {
             </button>
           </div>
         </div>
+      </div>
 
-        {/* 회원가입 완료 버튼 */}
+      {/* 회원가입 완료 버튼 */}
+      <div className="flex-1 flex items-end pb-5">
         <button
           onClick={handleNext}
           disabled={!isFormValid || isLoading}
@@ -264,7 +245,7 @@ export default function AccountPage() {
           }`}
         >
           <span className="font-semibold text-[16px] text-white">
-            {isLoading ? "가입중..." : "회원가입 완료"}
+            {isLoading ? "가입중..." : "가입하기"}
           </span>
         </button>
       </div>
@@ -305,23 +286,23 @@ export default function AccountPage() {
 
             {/* 안내 내용 */}
             <div className="px-3 py-6">
-              <ul className="space-y-4 text-[16px] font-medium text-[#363e4a]">
+              <ul className="space-y-4 text-[16px] font-medium text-gray-900">
                 <li className="flex items-start">
-                  <div className="w-1.5 h-1.5 bg-[#363e4a] rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                  <div className="w-1.5 h-1.5 bg-gray-900 rounded-full mt-2 mr-3 flex-shrink-0"></div>
                   <span>
                     비밀번호는 8 ~ 32자의 영문 대소문자, 숫자, 특수문자를
                     포함하여 설정해 주세요.
                   </span>
                 </li>
                 <li className="flex items-start">
-                  <div className="w-1.5 h-1.5 bg-[#363e4a] rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                  <div className="w-1.5 h-1.5 bg-gray-900 rounded-full mt-2 mr-3 flex-shrink-0"></div>
                   <span>
                     다른 사이트에서 사용하는 것과 동일하거나 쉬운 비밀번호는
                     사용하지 마세요.
                   </span>
                 </li>
                 <li className="flex items-start">
-                  <div className="w-1.5 h-1.5 bg-[#363e4a] rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                  <div className="w-1.5 h-1.5 bg-gray-900 rounded-full mt-2 mr-3 flex-shrink-0"></div>
                   <span>
                     안전한 계정 사용을 위해 비밀번호는 주기적으로 변경해주세요.
                   </span>

@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import MainContainer from "../components/MainContainer";
-import Icons from "../components/Icons";
+import PageHeader from "../components/PageHeader";
 import { authService } from "../utils/auth";
 
 // 테스트 계정
@@ -156,25 +156,14 @@ export default function LoginPage() {
     }
   };
 
-  const handleGoBack = () => {
-    router.back();
-  };
-
   return (
     <MainContainer>
       {/* Close 버튼 영역 */}
-      <div className="flex items-start pt-[45px] pb-[20px]">
-        <button
-          onClick={handleGoBack}
-          className="p-[18px] w-[57px] h-[57px] flex items-center justify-center -ml-[18px]"
-        >
-          <Icons.Close className="w-[17px] h-[17px] text-[#363e4a]" />
-        </button>
-      </div>
+      <PageHeader variant="close" />
 
       {/* 제목 영역 */}
-      <div className="pt-[82px] pb-[92px]">
-        <h1 className="text-[25px] font-bold text-[#363e4a] leading-[30px] text-center">
+      <div className="pt-[62px] pb-[92px]">
+        <h1 className="text-[25px] font-bold text-gray-900 leading-[30px] text-center">
           로그인을 해주세요!
         </h1>
       </div>
@@ -182,7 +171,7 @@ export default function LoginPage() {
       {/* 입력 필드 영역 */}
       <div className="flex-1 flex flex-col">
         {/* 첫 번째 입력 필드 */}
-        <div className="mb-[16px]">
+        <div>
           <input
             type="text"
             value={id}
@@ -197,7 +186,7 @@ export default function LoginPage() {
         </div>
 
         {/* 두 번째 입력 필드 */}
-        <div className="mb-[25px]">
+        <div className="mt-2">
           <input
             type="password"
             value={password}
@@ -214,29 +203,33 @@ export default function LoginPage() {
         </div>
 
         {/* 로그인 버튼 */}
-        <button
-          onClick={handleLogin}
-          disabled={isLoading || !id.trim() || !password.trim()}
-          className={`w-full h-[59px] rounded-[7px] flex items-center justify-center transition-colors mb-[25px] ${
-            isLoading || !id.trim() || !password.trim()
-              ? "bg-gray-300 cursor-not-allowed"
-              : "bg-[#3f55ff] hover:bg-[#3646e6] cursor-pointer"
-          }`}
-        >
-          {isLoading ? (
-            <div className="flex items-center">
-              <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+        <div className="mt-6">
+          <button
+            onClick={handleLogin}
+            disabled={isLoading || !id.trim() || !password.trim()}
+            className={`w-full h-[59px] rounded-[7px] flex items-center justify-center transition-colors ${
+              isLoading || !id.trim() || !password.trim()
+                ? "bg-gray-300 cursor-not-allowed"
+                : "bg-[#3f55ff] hover:bg-[#3646e6] cursor-pointer"
+            }`}
+          >
+            {isLoading ? (
+              <div className="flex items-center">
+                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+                <span className="font-semibold text-white text-[16px]">
+                  로그인 중...
+                </span>
+              </div>
+            ) : (
               <span className="font-semibold text-white text-[16px]">
-                로그인 중...
+                로그인
               </span>
-            </div>
-          ) : (
-            <span className="font-semibold text-white text-[16px]">로그인</span>
-          )}
-        </button>
+            )}
+          </button>
+        </div>
 
         {/* 아이디, 비밀번호 찾기 영역 */}
-        <div className="flex justify-center items-center gap-[6px] w-full">
+        <div className="flex justify-center items-center mt-6 gap-[6px] w-full">
           <button
             className="text-[#B4B4B4] text-[13px]"
             onClick={() => router.push("/find/id")}

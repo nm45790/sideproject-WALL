@@ -77,14 +77,14 @@ export default function LeavePage() {
 
         {/* 제목 */}
         <div className="px-[20px] mb-[179px]">
-          <h1 className="font-bold text-[#363e4a] text-[20px] leading-[normal]">
+          <h1 className="font-bold text-gray-900 text-[20px] leading-[normal]">
             회원탈퇴
           </h1>
         </div>
 
         {/* 메인 안내 문구 */}
         <div className="px-[20px] mb-[79px]">
-          <p className="font-bold text-[#363e4a] text-[20px] leading-[normal] text-center">
+          <p className="font-bold text-gray-900 text-[20px] leading-[normal] text-center">
             회원 탈퇴 시
             <br />
             고객님의 모든 정보가 소멸되며
@@ -120,7 +120,7 @@ export default function LeavePage() {
             <div
               className={`w-[20px] h-[20px] rounded-full border-2 flex items-center justify-center transition-colors flex-shrink-0 ${
                 isAgreed
-                  ? "bg-[#363e4a] border-[#363e4a]"
+                  ? "bg-gray-900 border-gray-900"
                   : "bg-white border-[#d1d5db]"
               }`}
             >

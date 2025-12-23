@@ -55,7 +55,14 @@ export const CheckboxIcon = ({
       xmlns="http://www.w3.org/2000/svg"
       className={className}
     >
-      <circle cx="10" cy="10" r="9.5" fill="white" stroke="#D2D2D2" />
+      <circle cx="10" cy="10" r="10" fill="#F2F2F2" />
+      <path
+        d="M6 10L9 13L14 7"
+        stroke="white"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   );
 };

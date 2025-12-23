@@ -45,6 +45,7 @@ body,
 
   --color-white: #ffffff;
   --color-black: #000000;
+  --color-gray-900: #363e4a;
 }
 
 /* iOS 탭 하이라이트 제거 */

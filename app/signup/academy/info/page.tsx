@@ -172,7 +172,7 @@ export default function AcademyInfoPage() {
 
       {/* 타이틀 영역 */}
       <div className="pt-[32px] pb-[28px]">
-        <h2 className="text-[25px] font-bold text-[#363e4a] leading-[30px] mb-2">
+        <h2 className="text-[25px] font-bold text-gray-900 leading-[30px] mb-2">
           유치원 정보를 입력해 주세요!
         </h2>
         <p className="text-[16px] text-[#858585]">
@@ -185,7 +185,7 @@ export default function AcademyInfoPage() {
         {/* 사업장명 입력 */}
         <div className="mb-[24px]">
           <div className="mb-[8px]">
-            <span className="text-[16px] font-medium text-[#363e4a]">
+            <span className="text-[16px] font-medium text-gray-900">
               사업장명
             </span>
             <span className="text-[16px] font-medium text-[#ff2407] ml-1">
@@ -210,7 +210,7 @@ export default function AcademyInfoPage() {
         {/* 주소 입력 */}
         <div className="mb-[24px]">
           <div className="mb-[8px]">
-            <span className="text-[16px] font-medium text-[#363e4a]">주소</span>
+            <span className="text-[16px] font-medium text-gray-900">주소</span>
             <span className="text-[16px] font-medium text-[#ff2407] ml-1">
               *
             </span>
@@ -234,7 +234,7 @@ export default function AcademyInfoPage() {
         {/* 상세 주소 입력 */}
         <div className="mb-[25px]">
           <div className="mb-[8px]">
-            <span className="text-[16px] font-medium text-[#363e4a]">
+            <span className="text-[16px] font-medium text-gray-900">
               상세 주소
             </span>
             <span className="text-[16px] font-medium text-[#ff2407] ml-1">
@@ -294,7 +294,7 @@ export default function AcademyInfoPage() {
                 />
               </svg>
             </button>
-            <h3 className="text-[18px] font-bold text-[#363e4a]">주소 검색</h3>
+            <h3 className="text-[18px] font-bold text-gray-900">주소 검색</h3>
             <div className="w-8"></div> {/* 균형 맞추기 */}
           </div>
 

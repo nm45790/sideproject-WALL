@@ -85,7 +85,7 @@ export default function ParentInfoPage() {
 
       {/* 타이틀 영역 */}
       <div className="pt-[32px] pb-[28px]">
-        <h2 className="text-[25px] font-bold text-[#363e4a] leading-[30px] mb-2">
+        <h2 className="text-[25px] font-bold text-gray-900 leading-[30px] mb-2">
           우리아이 정보를 입력해주세요!
         </h2>
         <p className="text-[16px] text-[#858585]">이름과 성별을 입력해주세요</p>
@@ -96,7 +96,7 @@ export default function ParentInfoPage() {
         {/* 이름 입력 */}
         <div className="mb-[24px]">
           <div className="mb-[8px]">
-            <span className="text-[16px] font-medium text-[#363e4a]">이름</span>
+            <span className="text-[16px] font-medium text-gray-900">이름</span>
             <span className="text-[16px] font-medium text-[#ff2407] ml-1">
               *
             </span>
@@ -118,7 +118,7 @@ export default function ParentInfoPage() {
         {/* 성별 선택 */}
         <div className="mb-[25px]">
           <div className="mb-[8px]">
-            <span className="text-[16px] font-medium text-[#363e4a]">성별</span>
+            <span className="text-[16px] font-medium text-gray-900">성별</span>
             <span className="text-[16px] font-medium text-[#ff2407] ml-1">
               *
             </span>

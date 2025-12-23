@@ -117,7 +117,7 @@ export default function ParentPage() {
       {/* 상단 헤더 */}
       <div className="bg-[#f3f4f9] min-h-[144px] relative px-[20px] mb-[20px] pb-[20px]">
         <div className="pt-[73px]">
-          <p className="text-[20px] font-bold text-[#363e4a] leading-[24px]">
+          <p className="text-[20px] font-bold text-gray-900 leading-[24px]">
             안녕하세요!
           </p>
           <div className="flex items-start gap-[4px] mt-[5px] flex-wrap">
@@ -128,7 +128,7 @@ export default function ParentPage() {
                   : userName}
               </p>
             </div>
-            <p className="text-[20px] font-bold text-[#363e4a] leading-[24px]">
+            <p className="text-[20px] font-bold text-gray-900 leading-[24px]">
               보호자님! 👋
             </p>
           </div>

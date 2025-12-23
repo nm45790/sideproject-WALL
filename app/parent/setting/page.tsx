@@ -39,7 +39,7 @@ export default function ParentSettingPage() {
 
         {/* 제목 */}
         <div className="bg-white px-[20px] pb-[20px]">
-          <p className="font-bold text-[#363e4a] text-[20px] leading-[normal]">
+          <p className="font-bold text-gray-900 text-[20px] leading-[normal]">
             사용자 정보
           </p>
         </div>
@@ -80,14 +80,14 @@ export default function ParentSettingPage() {
           <div className="flex items-center justify-center gap-[16px] mb-[40px]">
             <button
               onClick={handleWithdraw}
-              className="font-medium text-[#8e8e8e] text-[16px] hover:text-[#363e4a] transition-colors"
+              className="font-medium text-[#8e8e8e] text-[16px] hover:text-gray-900 transition-colors"
             >
               회원탈퇴
             </button>
             <div className="w-[1px] h-[14px] bg-[#d2d2d2]" />
             <button
               onClick={handleLogout}
-              className="font-medium text-[#8e8e8e] text-[16px] hover:text-[#363e4a] transition-colors"
+              className="font-medium text-[#8e8e8e] text-[16px] hover:text-gray-900 transition-colors"
             >
               로그아웃
             </button>

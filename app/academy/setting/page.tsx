@@ -213,7 +213,7 @@ export default function AcademySettingPage() {
               </svg>
             </div>
           </div>
-          <p className="font-bold text-[#363e4a] text-[20px] leading-[normal] mb-[6px]">
+          <p className="font-bold text-gray-900 text-[20px] leading-[normal] mb-[6px]">
             유치원 설정
           </p>
           <p className="font-medium text-[#6e7783] text-[12px] leading-[normal]">
@@ -311,7 +311,7 @@ export default function AcademySettingPage() {
 
           {/* 정원 */}
           <div className="mb-[20px]">
-            <p className="font-semibold text-[#363e4a] text-[18px] leading-[normal] mb-[31px]">
+            <p className="font-semibold text-gray-900 text-[18px] leading-[normal] mb-[31px]">
               정원
             </p>
             <div className="bg-white rounded-[10px] shadow-[0px_1px_3px_0px_rgba(0,0,0,0.1)] h-[57px] flex items-center px-[20px]">
@@ -335,7 +335,7 @@ export default function AcademySettingPage() {
 
           {/* 운영 정보 */}
           <div className="mb-[20px]">
-            <p className="font-semibold text-[#363e4a] text-[18px] leading-[normal] mb-[31px]">
+            <p className="font-semibold text-gray-900 text-[18px] leading-[normal] mb-[31px]">
               운영 정보
             </p>
             <div className="bg-white rounded-[10px] shadow-[0px_1px_3px_0px_rgba(0,0,0,0.1)] px-[21px] py-[20px]">
@@ -413,7 +413,7 @@ export default function AcademySettingPage() {
 
           {/* 상호명 */}
           <div className="mb-[20px]">
-            <p className="font-semibold text-[#363e4a] text-[18px] leading-[normal] mb-[31px]">
+            <p className="font-semibold text-gray-900 text-[18px] leading-[normal] mb-[31px]">
               상호명
             </p>
             <div className="bg-white rounded-[10px] shadow-[0px_1px_3px_0px_rgba(0,0,0,0.1)] h-[57px] flex items-center px-[20px]">
@@ -431,7 +431,7 @@ export default function AcademySettingPage() {
 
           {/* 대표번호 */}
           <div className="mb-[20px]">
-            <p className="font-semibold text-[#363e4a] text-[18px] leading-[normal] mb-[31px]">
+            <p className="font-semibold text-gray-900 text-[18px] leading-[normal] mb-[31px]">
               대표번호
             </p>
             <div className="bg-white rounded-[10px] shadow-[0px_1px_3px_0px_rgba(0,0,0,0.1)] h-[57px] flex items-center px-[20px]">
@@ -449,7 +449,7 @@ export default function AcademySettingPage() {
 
           {/* 주소 */}
           <div className="mb-[40px]">
-            <p className="font-semibold text-[#363e4a] text-[18px] leading-[normal] mb-[31px]">
+            <p className="font-semibold text-gray-900 text-[18px] leading-[normal] mb-[31px]">
               주소
             </p>
             <div className="bg-white rounded-[10px] shadow-[0px_1px_3px_0px_rgba(0,0,0,0.1)] px-[20px] py-[20px]">
@@ -481,14 +481,14 @@ export default function AcademySettingPage() {
           <div className="flex items-center justify-center gap-[16px] mb-[40px]">
             <button
               onClick={handleWithdraw}
-              className="font-medium text-[#8e8e8e] text-[16px] hover:text-[#363e4a] transition-colors"
+              className="font-medium text-[#8e8e8e] text-[16px] hover:text-gray-900 transition-colors"
             >
               회원탈퇴
             </button>
             <div className="w-[1px] h-[14px] bg-[#d2d2d2]" />
             <button
               onClick={handleLogout}
-              className="font-medium text-[#8e8e8e] text-[16px] hover:text-[#363e4a] transition-colors"
+              className="font-medium text-[#8e8e8e] text-[16px] hover:text-gray-900 transition-colors"
             >
               로그아웃
             </button>

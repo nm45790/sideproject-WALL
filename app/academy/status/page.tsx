@@ -100,10 +100,10 @@ const AcademyStatusPage = () => {
         <div className="px-[20px] mt-[27px] flex items-start justify-between">
           {/* 왼쪽: 마릿수 */}
           <div className="flex items-end gap-[6px]">
-            <p className="font-bold text-[#363e4a] text-[55px] leading-[54px]">
+            <p className="font-bold text-gray-900 text-[55px] leading-[54px]">
               {reservations.length}
             </p>
-            <p className="font-bold text-[#363e4a] text-[20px] leading-[normal] pb-[4px]">
+            <p className="font-bold text-gray-900 text-[20px] leading-[normal] pb-[4px]">
               마리
             </p>
           </div>
@@ -164,7 +164,7 @@ const AcademyStatusPage = () => {
 
                 {/* 강아지 정보 */}
                 <div className="flex-1">
-                  <p className="font-bold text-[#363e4a] text-[18px] leading-[normal] mb-[4px]">
+                  <p className="font-bold text-gray-900 text-[18px] leading-[normal] mb-[4px]">
                     {reservation.petName}
                   </p>
                   <p className="font-medium text-[#6e7783] text-[12px] leading-[normal]">

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import MainContainer from "../../components/MainContainer";
-import Icons from "../../components/Icons";
+import PageHeader from "../../components/PageHeader";
 import useDebouncedApi from "../../utils/debouncedApi";
 import {
   formatPhoneNumberInput,
@@ -20,10 +20,6 @@ export default function FindIdPage() {
   const [isNameFocused, setIsNameFocused] = useState(false);
   const [isPhoneFocused, setIsPhoneFocused] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
-  const handleGoBack = () => {
-    router.back();
-  };
 
   const handleNameChange = (value: string) => {
     setName(formatName(value));
@@ -69,28 +65,15 @@ export default function FindIdPage() {
 
   return (
     <MainContainer>
-      {/* 헤더 영역 - 뒤로가기 + 제목 */}
-      <div className="flex items-center pt-[45px] pb-[20px]">
-        <button
-          onClick={handleGoBack}
-          className="p-[18px] w-[57px] h-[57px] flex items-center justify-center -ml-[18px]"
-        >
-          <Icons.Prev className="w-[26px] h-[22px]" />
-        </button>
-        <h1 className="text-[25px] font-bold text-[#363e4a] leading-[30px] ml-4">
-          아이디 찾기
-        </h1>
-      </div>
+      <PageHeader title="아이디 찾기" />
 
       {/* 입력 필드 영역 */}
-      <div className="flex-1 flex flex-col pt-[46px]">
+      <div className="flex-1 flex flex-col pt-[38px]">
         {/* 이름 입력 */}
         <div className="mb-[24px]">
           <div className="mb-[8px]">
-            <span className="text-[14px] font-medium text-[#363e4a]">이름</span>
-            <span className="text-[14px] font-medium text-[#ff3b30] ml-1">
-              *
-            </span>
+            <span className="font-medium text-gray-900">이름</span>
+            <span className="font-medium text-[#ff3b30]">*</span>
           </div>
           <input
             type="text"
@@ -108,12 +91,8 @@ export default function FindIdPage() {
         {/* 전화번호 입력 */}
         <div className="mb-[24px]">
           <div className="mb-[8px]">
-            <span className="text-[14px] font-medium text-[#363e4a]">
-              전화번호
-            </span>
-            <span className="text-[14px] font-medium text-[#ff3b30] ml-1">
-              *
-            </span>
+            <span className="font-medium text-gray-900">전화번호</span>
+            <span className="font-medium text-[#ff3b30] ml-1">*</span>
           </div>
           <input
             type="tel"

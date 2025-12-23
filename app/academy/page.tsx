@@ -78,7 +78,7 @@ export default function Academy() {
           <div className="relative w-full min-h-dvh">
             {/* 인사말 및 아카데미 이름 */}
             <div className="pt-[73px]">
-              <p className="font-bold text-[#363e4a] text-[20px] leading-[24px]">
+              <p className="font-bold text-gray-900 text-[20px] leading-[24px]">
                 안녕하세요!
               </p>
               <div className="flex items-center gap-[4px] mt-[5px]">
@@ -87,7 +87,7 @@ export default function Academy() {
                     {userInfo?.name || "보호자"}
                   </p>
                 </div>
-                <p className="font-bold text-[#363e4a] text-[20px] leading-[24px]">
+                <p className="font-bold text-gray-900 text-[20px] leading-[24px]">
                   선생님! 👋
                 </p>
               </div>
@@ -134,10 +134,10 @@ export default function Academy() {
                   href={statusUrl}
                   className="flex-1 flex flex-col items-center hover:opacity-80 transition-opacity cursor-pointer"
                 >
-                  <p className="font-bold text-[#363e4a] text-[55px] leading-[54px] text-center mb-[7px]">
+                  <p className="font-bold text-gray-900 text-[55px] leading-[54px] text-center mb-[7px]">
                     {totalDogs}
                   </p>
-                  <p className="font-bold text-[#363e4a] text-[20px] leading-[normal] mb-[8px]">
+                  <p className="font-bold text-gray-900 text-[20px] leading-[normal] mb-[8px]">
                     마리
                   </p>
                   <div
@@ -203,7 +203,7 @@ export default function Academy() {
                     </svg>
                   </div>
                 </div>
-                <p className="font-semibold text-[#363e4a] text-[14px] leading-[normal]">
+                <p className="font-semibold text-gray-900 text-[14px] leading-[normal]">
                   아이들 관리
                 </p>
               </button>
@@ -226,7 +226,7 @@ export default function Academy() {
                     </svg>
                   </div>
                 </div>
-                <p className="font-semibold text-[#363e4a] text-[14px] leading-[normal]">
+                <p className="font-semibold text-gray-900 text-[14px] leading-[normal]">
                   유치원 설정
                 </p>
               </button>
@@ -249,7 +249,7 @@ export default function Academy() {
                     </svg>
                   </div>
                 </div>
-                <p className="font-semibold text-[#363e4a] text-[14px] leading-[normal]">
+                <p className="font-semibold text-gray-900 text-[14px] leading-[normal]">
                   승인 관리
                 </p>
               </button>
