@@ -3,13 +3,13 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../components/CombinedProvider";
-import { cookies } from "../utils/cookies";
+import { tokenManager } from "../utils/cookies";
+import { api } from "../utils/api";
 import MainContainer from "../components/MainContainer";
 import Icons from "../components/Icons";
 
 export default function LeavePage() {
   const router = useRouter();
-  const userInfo = useAuth();
   const [isAgreed, setIsAgreed] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -30,28 +30,34 @@ export default function LeavePage() {
     try {
       setIsProcessing(true);
 
-      // TODO: 실제 회원탈퇴 API 호출
-      console.log("회원탈퇴 처리:", {
-        userId: userInfo?.id,
-        name: userInfo?.name,
-        email: userInfo?.email,
-      });
+      // 회원탈퇴 API 호출
+      const response = await api.post<{
+        code: number;
+        data: {
+          success: boolean;
+          message: string;
+        };
+      }>("/api/v1/members/withdraw");
 
-      // 임시: 2초 대기
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      if (response.success && response.data?.data?.success) {
+        // 성공 메시지 표시
+        alert(response.data.data.message || "탈퇴 처리가 완료되었습니다.");
 
-      alert("회원탈퇴가 완료되었습니다.");
+        // 토큰 및 사용자 정보 삭제
+        tokenManager.clearTokens();
 
-      // 쿠키 삭제
-      cookies.remove("access_token");
-      cookies.remove("refresh_token");
-      cookies.remove("user_info");
-
-      // 메인 페이지로 이동
-      router.push("/");
+        // 메인 페이지로 이동
+        router.push("/");
+      } else {
+        throw new Error(response.error || "회원탈퇴에 실패했습니다.");
+      }
     } catch (error) {
       console.error("회원탈퇴 실패:", error);
-      alert("회원탈퇴에 실패했습니다. 다시 시도해주세요.");
+      alert(
+        error instanceof Error
+          ? error.message
+          : "회원탈퇴에 실패했습니다. 다시 시도해주세요.",
+      );
     } finally {
       setIsProcessing(false);
     }
