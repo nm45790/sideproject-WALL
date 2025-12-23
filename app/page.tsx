@@ -5,6 +5,7 @@ import MainContainer from "./components/MainContainer";
 import Splash from "./components/Splash";
 import { useRouter } from "next/navigation";
 import { authService } from "./utils/auth";
+import Image from "next/image";
 
 export default function Home() {
   const router = useRouter();
@@ -141,52 +142,55 @@ export default function Home() {
         } w-full flex justify-center h-full`}
       >
         <MainContainer>
-          <div className="bg-white relative w-full min-h-dvh px-5 flex flex-col">
-            {/* 상단 콘텐츠 영역 */}
-            <div className="pt-[108px] flex-1">
-              {/* 메인 타이틀 */}
-              <div className="relative">
-                <h1 className="font-bold leading-normal text-[#363e4a] text-[20px]">
-                  <span className="relative">
-                    반려견 케어스페이스
-                    {/* 노란색 하이라이트 */}
-                    <div className="absolute bg-[#f4ff5d] h-[13px] w-[120px] -bottom-1 right-0 opacity-50" />
-                  </span>
-                  <br />
-                  예약·관리 플랫폼
-                </h1>
-              </div>
+          <div className="bg-white w-full min-h-dvh flex flex-col px-5">
+            {/* 상단 여백 */}
+            <div className="h-[108px]" />
 
-              {/* 서브 타이틀 */}
-              <p className="font-medium text-[#858585] text-[13px] mt-[50px]">
-                유치원, 호텔, 놀이방 등 다양한 공간을 한 곳에서 간편하게
-              </p>
+            {/* 타이틀 */}
+            <div className="font-bold leading-normal text-[#363e4a] text-[20px]">
+              <p className="mb-0">반려견 케어스페이스</p>
+              <p>예약·관리 플랫폼</p>
+            </div>
+
+            {/* 서브타이틀 */}
+            <p className="font-medium leading-normal text-[#858585] text-[13px] mt-[38px]">
+              유치원, 호텔, 놀이방 등 다양한 공간을 한 곳에서 간편하게
+            </p>
+
+            {/* 이미지 */}
+            <div className="mt-[72px] w-full flex justify-start">
+              <div className="h-[309px] rounded-[7px] w-[335px] relative overflow-hidden">
+                <Image
+                  src="/images/로그인 및 회원가입_img.png"
+                  alt="login_and_signup_img"
+                  width={335}
+                  height={309}
+                  className="h-[108.5%] w-full object-cover"
+                />
+              </div>
             </div>
 
             {/* 하단 버튼 영역 */}
-            <div className="pb-8 space-y-4">
-              {/* 왈 아이디로 로그인 버튼 */}
+            <div className="mt-[91px] flex flex-col items-center">
+              {/* 로그인 버튼 */}
               <button
-                className="w-full bg-[#3f55ff] h-[59px] rounded-[7px] flex items-center justify-center cursor-pointer hover:bg-[#3646e6] transition-colors"
+                className="bg-[#3f55ff] h-[59px] rounded-[7px] w-[335px] flex items-center justify-center cursor-pointer hover:bg-[#3646e6] transition-colors"
                 onClick={() => router.push("/login")}
               >
-                <span className="font-semibold text-white text-[16px]">
+                <span className="font-semibold leading-normal text-[16px] text-center text-nowrap text-white">
                   왈 아이디로 로그인
                 </span>
               </button>
 
-              {/* 왈 아이디로 회원가입 버튼 */}
-              <div className="flex items-center justify-center py-3">
-                <button
-                  className="relative cursor-pointer"
-                  onClick={() => router.push("/signup/terms")}
-                >
-                  <span className="font-semibold text-[#363e4a] text-[16px] hover:text-[#2a3238] transition-colors relative">
-                    왈 아이디로 회원가입
-                    <div className="absolute border-[#363e4a] border-[0px_0px_1px] border-solid bottom-[-0.5px] left-0 right-0" />
-                  </span>
-                </button>
-              </div>
+              {/* 회원가입 링크 */}
+              <button
+                className="mt-[20px] border-[#363e4a] border-[0px_0px_1px] border-solid flex items-center justify-center cursor-pointer"
+                onClick={() => router.push("/signup/terms")}
+              >
+                <span className="font-semibold leading-[16px] text-[#363e4a] text-[16px] text-center text-nowrap">
+                  왈 아이디로 회원가입
+                </span>
+              </button>
             </div>
           </div>
         </MainContainer>
